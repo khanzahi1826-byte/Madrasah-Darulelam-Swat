@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدرسہ دارالعلم سوات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+
+    :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #3498db;
+        --light-color: #ecf0f1;
+        --dark-color: #212529;
+        --font-family: 'Noto Nastaliq Urdu', serif;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: var(--font-family);
+        direction: rtl;
+        line-height: 1.8;
+        background-color: #f8f9fa;
+        color: var(--dark-color);
+        font-size: 18px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+        background: var(--primary-color);
+        color: var(--light-color);
+        padding: 1rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    header .logo {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--light-color);
+        text-decoration: none;
+    }
+
+    header nav ul {
+        list-style: none;
+    }
+
+    header nav ul li {
+        display: inline;
+        margin-right: 25px;
+    }
+
+    header nav a {
+        color: var(--light-color);
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+    }
+
+    header nav a:hover {
+        color: var(--secondary-color);
+    }
+
+    /* Hero Section */
+    #hero {
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1583947472009-026d24a5444b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+        height: 90vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #fff;
+    }
+
+    .hero-content h1 {
+        font-size: 4.5rem;
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    .hero-content p {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+    }
+
+    .btn {
+        display: inline-block;
+        background: var(--secondary-color);
+        color: #fff;
+        padding: 12px 30px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: background 0.3s ease;
+        border: none;
+        cursor: pointer;
+        font-family: 'Noto Nastaliq Urdu', sans-serif;
+    }
+
+    .btn:hover {
+        background: #2980b9;
+    }
+
+    /* Sections */
+    section {
+        padding: 60px 0;
+    }
+
+    section h2 {
+        text-align: center;
+        font-size: 3rem;
+        margin-bottom: 40px;
+        font-weight: 700;
+        position: relative;
+    }
+
+    section h2::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: var(--secondary-color);
+        margin: 10px auto 0;
+    }
+
+    #about p {
+        text-align: center;
+        font-size: 1.4rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* Courses Section */
+    .course-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+    }
+
+    .card {
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    }
+
+    .card-icon {
+        font-size: 3rem;
+        color: var(--secondary-color);
+        margin-bottom: 15px;
+    }
+
+    .card h3 {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    /* Gallery Section */
+    #gallery {
+        background: #fdfdfd;
+    }
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 15px;
+    }
+
+    .gallery-grid img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-grid img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Contact Section */
+    #contact {
+        background: var(--light-color);
+    }
+
+    #contact p {
+        text-align: center;
+        font-size: 1.3rem;
+        margin-bottom: 30px;
+    }
+
+    #contact form {
+        max-width: 700px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #contact input, #contact textarea {
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-family: inherit;
+        direction: rtl;
+        font-size: 1.1rem;
+    }
+
+    #contact textarea {
+        resize: vertical;
+        min-height: 150px;
+    }
+
+
+    /* Footer */
+    footer {
+        background: var(--primary-color);
+        color: #fff;
+        text-align: center;
+        padding: 20px 0;
+        font-family: 'Noto Nastaliq Urdu', sans-serif;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        header .container {
+            flex-direction: column;
+        }
+
+        header nav {
+            margin-top: 15px;
+        }
+        header nav ul li {
+          margin: 0 10px;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+        }
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="#" class="logo">مدرسہ دارالعلم سوات</a>
+            <nav>
+                <ul>
+                    <li><a href="#about">ہمارے بارے میں</a></li>
+                    <li><a href="#courses">کورسز</a></li>
+                    <li><a href="#gallery">گیلری</a></li>
+                    <li><a href="#contact">رابطہ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero">
+            <div class="hero-content">
+                <h1>علم کی روشنی، کامیابی کا راستہ</h1>
+                <p>مدرسہ دارالعلم سوات میں آپ کے بچوں کے روشن مستقبل کی تعمیر کی جاتی ہے</p>
+                <a href="#courses" class="btn">ہمارے کورسز دیکھیں</a>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="container">
+                <h2>ادارے کا تعارف</h2>
+                <p>مدرسہ دارالعلم سوات، وادئ سوات کا ایک ممتاز دینی و عصری تعلیم کا ادارہ ہے۔ ہمارا اولین مقصد ایسی نسل تیار کرنا ہے جو دینی علوم میں مہارت رکھنے کے ساتھ ساتھ جدید دنیا کے تقاضوں سے بھی ہم آہنگ ہو۔ ہم ایک ایسا ماحول فراہم کرتے ہیں جہاں طلباء قرآن و سنت کی تعلیمات کو اپنی زندگی کا حصہ بنا سکیں۔</p>
+            </div>
+        </section>
+
+        <section id="courses">
+            <div class="container">
+                <h2>ہمارے خصوصی کورسز</h2>
+                <div class="course-cards">
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-book-quran"></i></div>
+                        <h3>حفظ القرآن الكريم</h3>
+                        <p>تجوید اور قرآت کے اصولوں کے ساتھ قرآن مجید حفظ کرنے کا خصوصی اہتمام۔</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-user-graduate"></i></div>
+                        <h3>درس نظامی (عالم کورس)</h3>
+                        <p>آٹھ سالہ مستند عالم کورس جس میں صرف و نحو، فقہ، اصول فقہ، حدیث اور تفسیر کی تعلیم دی جاتی ہے۔</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-language"></i></div>
+                        <h3>عربی زبان و ادب</h3>
+                        <p>قرآن و حدیث کو براہ راست سمجھنے اور عربی میں مہارت حاصل کرنے کیلئے۔</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon"><i class="fas fa-laptop-code"></i></div>
+                        <h3>عصری علوم</h3>
+                        <p>انگلش، کمپیوٹر سائنس اور دیگر جدید علوم کی تعلیم جو طلباء کو مستقبل کے چیلنجز کیلئے تیار کرے۔</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery">
+             <div class="container">
+                <h2>گیلری</h2>
+                <div class="gallery-grid">
+                    <img src="https://images.unsplash.com/photo-1593348884968-356b68551cf6?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Image 1">
+                    <img src="https://images.unsplash.com/photo-1597500355207-1c91192283a7?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Image 2">
+                    <img src="https://images.unsplash.com/photo-1554481923-a68181272799?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Image 3">
+                 </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2>رابطہ کیجئے</h2>
+                <p>داخلہ اور دیگر معلومات کیلئے براہ کرم ہم سے رابطہ کریں۔</p>
+                <form>
+                    <input type="text" placeholder="آپ کا نام">
+                    <input type="email" placeholder="آپ کا ای میل">
+                    <textarea placeholder="آپ کا پیغام"></textarea>
+                    <button type="submit" class="btn">پیغام بھیجیں</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 جملہ حقوق محفوظ ہیں | مدرسہ دارالعلم سوات</p>
+        </div>
+    </footer>
+</body>
+</html>
