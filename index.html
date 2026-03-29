@@ -407,7 +407,7 @@
                 <div class="course-cards">
                     <div class="card course-card"
                          data-course-title="حفظ القرآن الكريم"
-                         data-course-details="<b>شعبہ جات:</b><br>حفظ القران (کل وقتی، جزء وقتی)، ترجمۃ القرآن، ناظرۃ القران، و قاعدہ۔<br><br>ہم تجوید اور قرآت کے اصولوں کے ساتھ قرآن مجید حفظ کرنے کا خصوصی اہتمام کرتے ہیں۔">
+                         data-course-details="<b>شعبہ جات:</b><br>حفظ القران (کل وقتی، جزء وقتی)، ترجمۃ القرآن، ناظرۃ القran، و قاعدہ۔<br><br>ہم تجوید اور قرآت کے اصولوں کے ساتھ قرآن مجید حفظ کرنے کا خصوصی اہتمام کرتے ہیں۔">
                         <div class="card-icon"><i class="fas fa-book-quran"></i></div>
                         <h3>حفظ القرآن الكريم</h3>
                         <p>تجوید اور قرآت کے اصولوں کے ساتھ قرآن مجید حفظ کرنے کا خصوصی اہتمام۔</p>
@@ -452,10 +452,10 @@
             <div class="container">
                 <h2>رابطہ کیجئے</h2>
                 <p>داخلہ اور دیگر معلومات کیلئے براہ کرم ہم سے رابطہ کریں۔</p>
-                <form>
-                    <input type="text" placeholder="آپ کا نام">
-                    <input type="email" placeholder="آپ کا ای میل">
-                    <textarea placeholder="آپ کا پیغام"></textarea>
+                <form action="https://formspree.io/f/xdapebjo" method="POST">
+                    <input type="text" name="name" placeholder="آپ کا نام" required>
+                    <input type="email" name="email" placeholder="آپ کا ای میل" required>
+                    <textarea name="message" placeholder="آپ کا پیغام" required></textarea>
                     <button type="submit" class="btn">پیغام بھیجیں</button>
                 </form>
             </div>
@@ -472,7 +472,7 @@
         <div class="modal-body">
             <p id="modal-details"></p>
             <h4>مزید معلومات کیلئے فارم پر کریں</h4>
-            <form action="https://formspree.io/f/{your_form_id}" method="POST">
+            <form action="https://formspree.io/f/xdapebjo" method="POST">
                 <input type="text" name="name" placeholder="آپ کا نام" required>
                 <input type="tel" name="phone" placeholder="فون نمبر" required>
                 <input type="hidden" id="modal-course-name" name="course">
