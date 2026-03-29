@@ -164,15 +164,12 @@
         text-align: center;
         box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
     }
 
     .card:hover {
         transform: translateY(-10px);
         box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-    }
-    
-    .card.clickable {
-        cursor: pointer;
     }
 
     .card-icon {
@@ -242,6 +239,94 @@
         min-height: 150px;
     }
 
+    /* Modal Styles */
+    .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 2000;
+        display: none;
+        direction: ltr;
+    }
+
+    .modal {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        z-index: 2001;
+        width: 90%;
+        max-width: 600px;
+        display: none;
+        direction: rtl;
+    }
+
+    .modal-header {
+        background: var(--primary-color);
+        color: var(--light-color);
+        padding: 15px 25px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .modal-header h3 {
+        margin: 0;
+        font-size: 1.8rem;
+    }
+
+    .modal-close {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: var(--light-color);
+        cursor: pointer;
+        line-height: 1;
+        padding: 0 5px;
+        user-select: none;
+    }
+    .modal-close:hover {
+        color: var(--secondary-color);
+    }
+
+    .modal-body {
+        padding: 25px;
+    }
+
+    .modal-body p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+    
+    .modal-body h4 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--secondary-color);
+        padding-bottom: 5px;
+    }
+
+    .modal-body form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal-body input, .modal-body textarea {
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-family: inherit;
+        direction: rtl;
+        font-size: 1.1rem;
+    }
 
     /* Footer */
     footer {
@@ -271,6 +356,16 @@
 
         .hero-content p {
             font-size: 1.5rem;
+        }
+
+        .modal {
+            width: 95%;
+        }
+        .modal-header h3 {
+            font-size: 1.5rem;
+        }
+        .modal-body p {
+            font-size: 1.1rem;
         }
     }
     </style>
@@ -310,28 +405,33 @@
             <div class="container">
                 <h2>ہمارے خصوصی کورسز</h2>
                 <div class="course-cards">
-                    <div class="card clickable" id="hifz-card">
+                    <div class="card course-card"
+                         data-course-title="حفظ القرآن الكريم"
+                         data-course-details="<b>شعبہ جات:</b><br>حفظ القران (کل وقتی، جزء وقتی)، ترجمۃ القرآن، ناظرۃ القران، و قاعدہ۔<br><br>ہم تجوید اور قرآت کے اصولوں کے ساتھ قرآن مجید حفظ کرنے کا خصوصی اہتمام کرتے ہیں۔">
                         <div class="card-icon"><i class="fas fa-book-quran"></i></div>
                         <h3>حفظ القرآن الكريم</h3>
-                        <p data-original-text="تجوید اور قرآت کے اصولوں کے ساتھ قرآن مجید حفظ کرنے کا خصوصی اہتمام۔"
-                           data-details-text="حفظ القران (کل وقتی، جزء وقتی، ترجمۃ القرآن، ناظرۃ القران، و قاعدہ')">
-                            تجوید اور قرآت کے اصولوں کے ساتھ قرآن مجید حفظ کرنے کا خصوصی اہتمام۔
-                        </p>
+                        <p>تجوید اور قرآت کے اصولوں کے ساتھ قرآن مجید حفظ کرنے کا خصوصی اہتمام۔</p>
                     </div>
-                    <div class="card">
+                    <div class="card course-card"
+                        data-course-title="درس نظامی (عالم کورس)"
+                        data-course-details="آٹھ سالہ مستند عالم کورس جس میں صرف و نحو، فقہ، اصول فقہ، حدیث اور تفسیر کی تعلیم دی جاتی ہے۔ یہ کورس طلباء کو دینی علوم میں گہرائی اور پختگی فراہم کرتا ہے۔">
                         <div class="card-icon"><i class="fas fa-user-graduate"></i></div>
                         <h3>درس نظامی (عالم کورس)</h3>
-                        <p>آٹھ سالہ مستند عالم کورس جس میں صرف و نحو، فقہ، اصول فقہ، حدیث اور تفسیر کی تعلیم دی جاتی ہے۔</p>
+                        <p>آٹھ سالہ مستند عالم کورس جس میں فقہ، حدیث اور تفسیر کی تعلیم دی جاتی ہے۔</p>
                     </div>
-                    <div class="card">
+                    <div class="card course-card"
+                        data-course-title="عربی زبان و ادب"
+                        data-course-details="قرآن و حدیث کو براہ راست سمجھنے اور عربی میں روانی حاصل کرنے کیلئے خصوصی کورسز۔ اس میں عربی بول چال، گرائمر اور ادب شامل ہیں۔">
                         <div class="card-icon"><i class="fas fa-language"></i></div>
                         <h3>عربی زبان و ادب</h3>
                         <p>قرآن و حدیث کو براہ راست سمجھنے اور عربی میں مہارت حاصل کرنے کیلئے۔</p>
                     </div>
-                    <div class="card">
+                    <div class="card course-card"
+                        data-course-title="عصری علوم"
+                        data-course-details="ہمارے طلباء کو جدید دور کے تقاضوں کے لیے تیار کرنے کے لیے انگلش، کمپیوٹر سائنس، ریاضی اور دیگر اہم مضامین کی تعلیم بھی دی جاتی ہے۔">
                         <div class="card-icon"><i class="fas fa-laptop-code"></i></div>
                         <h3>عصری علوم</h3>
-                        <p>انگلش، کمپیوٹر سائنس اور دیگر جدید علوم کی تعلیم جو طلباء کو مستقبل کے چیلنجز کیلئے تیار کرے۔</p>
+                        <p>انگلش، کمپیوٹر سائنس اور دیگر جدید علوم کی تعلیم جو طلباء کو مستقبل کیلئے تیار کرے۔</p>
                     </div>
                 </div>
             </div>
@@ -362,6 +462,25 @@
         </section>
     </main>
 
+    <!-- Modal Structure -->
+    <div id="course-modal-backdrop" class="modal-backdrop"></div>
+    <div id="course-modal" class="modal">
+        <div class="modal-header">
+            <h3 id="modal-title"></h3>
+            <span id="modal-close" class="modal-close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p id="modal-details"></p>
+            <h4>مزید معلومات کیلئے فارم پر کریں</h4>
+            <form action="https://formspree.io/f/{your_form_id}" method="POST">
+                <input type="text" name="name" placeholder="آپ کا نام" required>
+                <input type="tel" name="phone" placeholder="فون نمبر" required>
+                <input type="hidden" id="modal-course-name" name="course">
+                <button type="submit" class="btn">معلومات حاصل کریں</button>
+            </form>
+        </div>
+    </div>
+    
     <footer>
         <div class="container">
             <p>&copy; 2023 جملہ حقوق محفوظ ہیں | مدرسہ دارالعلم سوات</p>
@@ -369,22 +488,40 @@
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const hifzCard = document.getElementById('hifz-card');
-            if (hifzCard) {
-                const hifzParagraph = hifzCard.querySelector('p');
-                let isShowingDetails = false;
+    document.addEventListener('DOMContentLoaded', () => {
+        const modalBackdrop = document.getElementById('course-modal-backdrop');
+        const modal = document.getElementById('course-modal');
+        const modalClose = document.getElementById('modal-close');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDetails = document.getElementById('modal-details');
+        const modalCourseNameInput = document.getElementById('modal-course-name');
+        
+        const courseCards = document.querySelectorAll('.course-card');
 
-                hifzCard.addEventListener('click', () => {
-                    if (isShowingDetails) {
-                        hifzParagraph.textContent = hifzParagraph.getAttribute('data-original-text');
-                    } else {
-                        hifzParagraph.textContent = hifzParagraph.getAttribute('data-details-text');
-                    }
-                    isShowingDetails = !isShowingDetails;
-                });
-            }
+        const openModal = (title, details) => {
+            modalTitle.textContent = title;
+            modalDetails.innerHTML = details;
+            modalCourseNameInput.value = title;
+            modal.style.display = 'block';
+            modalBackdrop.style.display = 'block';
+        };
+
+        const closeModal = () => {
+            modal.style.display = 'none';
+            modalBackdrop.style.display = 'none';
+        };
+
+        courseCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const title = card.getAttribute('data-course-title');
+                const details = card.getAttribute('data-course-details');
+                openModal(title, details);
+            });
         });
+
+        modalClose.addEventListener('click', closeModal);
+        modalBackdrop.addEventListener('click', closeModal);
+    });
     </script>
 </body>
 </html>
