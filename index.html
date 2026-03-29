@@ -170,6 +170,10 @@
         transform: translateY(-10px);
         box-shadow: 0 8px 25px rgba(0,0,0,0.12);
     }
+    
+    .card.clickable {
+        cursor: pointer;
+    }
 
     .card-icon {
         font-size: 3rem;
@@ -306,10 +310,13 @@
             <div class="container">
                 <h2>ہمارے خصوصی کورسز</h2>
                 <div class="course-cards">
-                    <div class="card">
+                    <div class="card clickable" id="hifz-card">
                         <div class="card-icon"><i class="fas fa-book-quran"></i></div>
                         <h3>حفظ القرآن الكريم</h3>
-                        <p>تجوید اور قرآت کے اصولوں کے ساتھ قرآن مجید حفظ کرنے کا خصوصی اہتمام۔</p>
+                        <p data-original-text="تجوید اور قرآت کے اصولوں کے ساتھ قرآن مجید حفظ کرنے کا خصوصی اہتمام۔"
+                           data-details-text="حفظ القران (کل وقتی، جزء وقتی، ترجمۃ القرآن، ناظرۃ القران، و قاعدہ')">
+                            تجوید اور قرآت کے اصولوں کے ساتھ قرآن مجید حفظ کرنے کا خصوصی اہتمام۔
+                        </p>
                     </div>
                     <div class="card">
                         <div class="card-icon"><i class="fas fa-user-graduate"></i></div>
@@ -360,5 +367,24 @@
             <p>&copy; 2023 جملہ حقوق محفوظ ہیں | مدرسہ دارالعلم سوات</p>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const hifzCard = document.getElementById('hifz-card');
+            if (hifzCard) {
+                const hifzParagraph = hifzCard.querySelector('p');
+                let isShowingDetails = false;
+
+                hifzCard.addEventListener('click', () => {
+                    if (isShowingDetails) {
+                        hifzParagraph.textContent = hifzParagraph.getAttribute('data-original-text');
+                    } else {
+                        hifzParagraph.textContent = hifzParagraph.getAttribute('data-details-text');
+                    }
+                    isShowingDetails = !isShowingDetails;
+                });
+            }
+        });
+    </script>
 </body>
 </html>
