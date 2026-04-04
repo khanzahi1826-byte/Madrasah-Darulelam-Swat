@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طالب علم کی تفصیلات - ایڈمن پینل</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+        :root {
+            --primary-color: #004d40;
+            --secondary-color: #d4af37;
+            --light-color: #f5f5f5;
+            --dark-color: #212121;
+            --font-family: 'Noto Nastaliq Urdu', serif;
+        }
+        body {
+            font-family: var(--font-family);
+            direction: rtl;
+            background-color: var(--light-color);
+            margin: 0;
+        }
+        .admin-wrapper {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 20px;
+        }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.8rem; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar ul li a {
+            display: block; color: #fff; text-decoration: none;
+            padding: 15px; font-size: 1.2rem; border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--secondary-color); }
+        .sidebar ul li a .fa { margin-left: 10px; }
+        .main-content { flex: 1; padding: 25px; }
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #fff; padding: 15px 25px; border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;
+        }
+        header h1 { margin: 0; font-size: 2.5rem; }
+        .details-container {
+            background: #fff; padding: 30px; border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            font-size: 1.2rem;
+        }
+        .detail-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .detail-item strong {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-left: 15px;
+        }
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        .btn-back {
+            display: inline-block; background: #6c757d; color: #fff;
+            padding: 12px 25px; border-radius: 5px; text-decoration: none;
+            font-size: 1.1rem; transition: background 0.3s ease; border: none;
+            cursor: pointer; font-family: 'Noto Nastaliq Urdu', sans-serif;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="sidebar">
+            <h2>ایڈمن پینل</h2>
+            <ul>
+                <li><a href="admin.html"><i class="fa fa-tachometer-alt"></i> ڈیش بورڈ</a></li>
+                <li><a href="students.html" class="active"><i class="fa fa-users"></i> طلباء</a></li>
+                <li><a href="#"><i class="fa fa-book-open"></i> کورسز</a></li>
+                <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
+                <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <header>
+                <h1>طالب علم کی تفصیلات</h1>
+            </header>
+            <div class="details-container" id="student-details-content">
+                <!-- Details will be loaded here by JavaScript -->
+                <p>تفصیلات لوڈ ہو رہی ہیں...</p>
+            </div>
+             <a href="students.html" class="btn-back"><i class="fa fa-arrow-right"></i> واپس جائیں</a>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const studentId = Number(urlParams.get('id'));
+            const detailsContent = document.getElementById('student-details-content');
+
+            if (!studentId) {
+                detailsContent.innerHTML = '<p>طالب علم کا ID فراہم نہیں کیا گیا۔</p>';
+                return;
+            }
+
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const student = students.find(s => s.id === studentId);
+
+            if (!student) {
+                detailsContent.innerHTML = '<p>اس ID کے ساتھ کوئی طالب علم نہیں ملا۔</p>';
+                return;
+            }
+
+            detailsContent.innerHTML = `
+                <div class="details-grid">
+                    <div class="detail-item"><strong>رول نمبر:</strong> ${student.id}</div>
+                    <div class="detail-item"><strong>رجسٹریشن تاریخ:</strong> ${new Date(student.regDate).toLocaleDateString('ur-PK')}</div>
+                    <div class="detail-item"><strong>نام:</strong> ${student.name}</div>
+                    <div class="detail-item"><strong>ولدیت:</strong> ${student.fatherName}</div>
+                    <div class="detail-item"><strong>تاریخ پیدائش:</strong> ${new Date(student.dob).toLocaleDateString('ur-PK')}</div>
+                    <div class="detail-item"><strong>شعبہ:</strong> ${student.department}</div>
+                    <div class="detail-item"><strong>شناختی کارڈ نمبر:</strong> ${student.cnic || 'N/A'}</div>
+                    <div class="detail-item"><strong>موبائل نمبر:</strong> ${student.mobile || 'N/A'}</div>
+                    <div class="detail-item full-width"><strong>مستقل پتہ:</strong> ${student.permAddress || 'N/A'}</div>
+                    <div class="detail-item full-width"><strong>عارضی پتہ:</strong> ${student.tempAddress || 'N/A'}</div>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>

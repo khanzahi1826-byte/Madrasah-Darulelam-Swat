@@ -178,7 +178,7 @@
                             <td>${student.fatherName}</td>
                             <td>${student.department}</td>
                             <td class="actions">
-                                <a href="#" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
+                                <a href="student-details.html?id=${student.id}" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
                                 <a href="#" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
                                 <a href="#" class="delete-btn" title="حذف کریں"><i class="fa fa-trash"></i></a>
                             </td>
@@ -188,25 +188,25 @@
                 }
             }
 
-            function handleDelete(e) {
-                const target = e.target.closest('.delete-btn');
-                if (!target) return;
-                e.preventDefault();
+            function handleTableClick(e) {
+                const deleteBtn = e.target.closest('.delete-btn');
+                if (deleteBtn) {
+                    e.preventDefault();
+                    const row = deleteBtn.closest('tr');
+                    const studentId = Number(row.getAttribute('data-id'));
 
-                const row = target.closest('tr');
-                const studentId = Number(row.getAttribute('data-id'));
-
-                if (confirm('کیا آپ واقعی اس طالب علم کا ریکارڈ حذف کرنا چاہتے ہیں؟')) {
-                    students = students.filter(student => student.id !== studentId);
-                    localStorage.setItem('students', JSON.stringify(students));
-                    renderTable(); 
-                    alert('طالب علم کا ریکارڈ کامیابی سے حذف کر دیا گیا ہے۔');
+                    if (confirm('کیا آپ واقعی اس طالب علم کا ریکارڈ حذف کرنا چاہتے ہیں؟')) {
+                        students = students.filter(student => student.id !== studentId);
+                        localStorage.setItem('students', JSON.stringify(students));
+                        renderTable(); 
+                        alert('طالب علم کا ریکارڈ کامیابی سے حذف کر دیا گیا ہے۔');
+                    }
                 }
             }
 
             renderTable();
 
-            studentsList.addEventListener('click', handleDelete);
+            studentsList.addEventListener('click', handleTableClick);
 
             document.getElementById('logout-btn')?.addEventListener('click', function() {
                 window.location.href = 'login.html';
