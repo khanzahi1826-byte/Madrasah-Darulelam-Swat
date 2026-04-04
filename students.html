@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ایڈمن ڈیش بورڈ - مدرسہ دارالعلم سوات</title>
+    <title>طلباء کا مینجمنٹ - ایڈمن پینل</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
@@ -29,7 +29,6 @@
             background: var(--primary-color);
             color: #fff;
             padding: 20px;
-            transition: width 0.3s ease;
         }
         .sidebar h2 {
             text-align: center;
@@ -51,7 +50,6 @@
         }
         .sidebar ul li a:hover, .sidebar ul li a.active {
             background: var(--secondary-color);
-            color: #fff;
         }
         .sidebar ul li a .fa {
             margin-left: 10px;
@@ -74,44 +72,55 @@
             margin: 0;
             font-size: 2.5rem;
         }
-        #logout-btn {
-            background: #d9534f;
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
             color: #fff;
-            border: none;
             padding: 10px 20px;
             border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+            border: none;
             cursor: pointer;
-            font-family: inherit;
-            font-size: 1rem;
+            font-family: 'Noto Nastaliq Urdu', sans-serif;
         }
-        .dashboard-widgets {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+        .btn:hover {
+            background: #00382e;
         }
-        .widget {
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
             background: #fff;
-            padding: 25px;
             border-radius: 8px;
+            overflow: hidden;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            text-align: center;
         }
-        .widget i {
-            font-size: 3rem;
-            color: var(--secondary-color);
-            margin-bottom: 15px;
+        .students-table th, .students-table td {
+            padding: 15px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
         }
-        .widget h3 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+        .students-table th {
+            background: var(--primary-color);
+            color: white;
+            font-size: 1.2rem;
         }
-        .widget p {
-            font-size: 2rem;
-            font-weight: bold;
-            margin: 0;
+        .students-table td {
+            font-size: 1.1rem;
+        }
+        .students-table tr:last-child td {
+            border-bottom: none;
+        }
+        .students-table .actions a {
             color: var(--primary-color);
+            margin-left: 10px;
+            font-size: 1.3rem;
         }
-
+        .students-table .actions a:hover {
+            color: var(--secondary-color);
+        }
     </style>
 </head>
 <body>
@@ -119,8 +128,8 @@
         <aside class="sidebar">
             <h2>ایڈمن پینل</h2>
             <ul>
-                <li><a href="admin.html" class="active"><i class="fa fa-tachometer-alt"></i> ڈیش بورڈ</a></li>
-                <li><a href="students.html"><i class="fa fa-users"></i> طلباء</a></li>
+                <li><a href="admin.html"><i class="fa fa-tachometer-alt"></i> ڈیش بورڈ</a></li>
+                <li><a href="students.html" class="active"><i class="fa fa-users"></i> طلباء</a></li>
                 <li><a href="#"><i class="fa fa-book-open"></i> کورسز</a></li>
                 <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
                 <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
@@ -128,31 +137,31 @@
         </aside>
         <main class="main-content">
             <header>
-                <h1>ڈیش بورڈ</h1>
-                <button id="logout-btn">لاگ آؤٹ</button>
+                <h1>طلباء کا مینجمنٹ</h1>
+                <a href="#" class="btn"><i class="fa fa-plus"></i> نیا طالب علم شامل کریں</a>
             </header>
-            <section class="dashboard-widgets">
-                <div class="widget">
-                    <i class="fa fa-users"></i>
-                    <h3>کل طلباء</h3>
-                    <p>0</p>
-                </div>
-                <div class="widget">
-                    <i class="fa fa-book-open"></i>
-                    <h3>کل کورسز</h3>
-                    <p>4</p>
-                </div>
-                <div class="widget">
-                    <i class="fa fa-receipt"></i>
-                    <h3>فیس آمدنی</h3>
-                    <p>0</p>
-                </div>
-            </section>
+            
+            <table class="students-table">
+                <thead>
+                    <tr>
+                        <th>رول نمبر</th>
+                        <th>نام</th>
+                        <th>والد کا نام</th>
+                        <th>کورس</th>
+                        <th>کاروائیاں</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ابھی کے لیے یہ خالی ہے -->
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 20px;">کوئی طالب علم موجود نہیں ہے۔</td>
+                    </tr>
+                </tbody>
+            </table>
         </main>
     </div>
-
     <script>
-        document.getElementById('logout-btn').addEventListener('click', function() {
+        document.getElementById('logout-btn')?.addEventListener('click', function() {
             window.location.href = 'login.html';
         });
     </script>
