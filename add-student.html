@@ -166,8 +166,13 @@
         // Handle form submission
         document.getElementById('add-student-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            // ابھی کے لیے، ہم صرف کنسول میں ڈیٹا دکھائیں گے
-            const studentData = {
+
+            // Get existing students from local storage, or initialize an empty array
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+
+            // Create new student object with a unique ID
+            const newStudent = {
+                id: Date.now(), // Simple unique ID
                 name: document.getElementById('student-name').value,
                 fatherName: document.getElementById('father-name').value,
                 dob: document.getElementById('dob').value,
@@ -178,9 +183,15 @@
                 permAddress: document.getElementById('permanent-address').value,
                 tempAddress: document.getElementById('temporary-address').value,
             };
-            console.log('Saving student data:', studentData);
-            alert('طالب علم کا ڈیٹا کامیابی سے محفوظ ہو گیا (ابھی صرف ایک نمونہ ہے)');
-            // مستقبل میں، ہم یہاں ڈیٹا کو سرور پر بھیجیں گے۔
+
+            // Add the new student to the array
+            students.push(newStudent);
+
+            // Save the updated students array back to local storage
+            localStorage.setItem('students', JSON.stringify(students));
+
+            // Notify user and redirect
+            alert('طالب علم کا ڈیٹا کامیابی سے محفوظ ہو گیا!');
             window.location.href = 'students.html';
         });
     </script>

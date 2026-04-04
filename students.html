@@ -115,8 +115,9 @@
         }
         .students-table .actions a {
             color: var(--primary-color);
-            margin-left: 10px;
-            font-size: 1.3rem;
+            margin-left: 15px;
+            font-size: 1.2rem;
+            text-decoration: none;
         }
         .students-table .actions a:hover {
             color: var(--secondary-color);
@@ -147,20 +148,42 @@
                         <th>رول نمبر</th>
                         <th>نام</th>
                         <th>والد کا نام</th>
-                        <th>کورس</th>
+                        <th>شعبہ</th>
                         <th>کاروائیاں</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- ابھی کے لیے یہ خالی ہے -->
-                    <tr>
-                        <td colspan="5" style="text-align: center; padding: 20px;">کوئی طالب علم موجود نہیں ہے۔</td>
-                    </tr>
+                <tbody id="students-list">
+                    <!-- یہاں طلباء کی فہرست بھری جائے گی -->
                 </tbody>
             </table>
         </main>
     </div>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const studentsList = document.getElementById('students-list');
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+
+            if (students.length === 0) {
+                studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">کوئی طالب علم موجود نہیں ہے۔</td></tr>`;
+            } else {
+                students.forEach(student => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${student.id}</td>
+                        <td>${student.name}</td>
+                        <td>${student.fatherName}</td>
+                        <td>${student.department}</td>
+                        <td class="actions">
+                            <a href="#" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
+                            <a href="#" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
+                            <a href="#" title="حذف کریں"><i class="fa fa-trash"></i></a>
+                        </td>
+                    `;
+                    studentsList.appendChild(row);
+                });
+            }
+        });
+
         document.getElementById('logout-btn')?.addEventListener('click', function() {
             window.location.href = 'login.html';
         });
