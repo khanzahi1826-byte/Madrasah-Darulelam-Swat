@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ایڈمن لاگ ان - مدرسہ دارالعلم سوات</title>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+    :root {
+        --primary-color: #004d40;
+        --secondary-color: #d4af37;
+        --light-color: #f5f5f5;
+        --dark-color: #212121;
+        --font-family: 'Noto Nastaliq Urdu', serif;
+    }
+    body {
+        font-family: var(--font-family);
+        direction: rtl;
+        background-color: var(--light-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    .login-container {
+        background: #fff;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        text-align: center;
+        width: 100%;
+        max-width: 400px;
+    }
+    .login-container h1 {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-bottom: 20px;
+    }
+    .login-container p {
+        color: #666;
+        margin-bottom: 30px;
+    }
+    .login-form input {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-family: inherit;
+        font-size: 1.1rem;
+        direction: rtl;
+    }
+    .btn {
+        display: inline-block;
+        background: var(--primary-color);
+        color: #fff;
+        padding: 15px 30px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: background 0.3s ease;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        font-family: 'Noto Nastaliq Urdu', sans-serif;
+    }
+    .btn:hover {
+        background: #00382e;
+    }
+    #error-message {
+        color: #d93025;
+        margin-top: 15px;
+        display: none;
+    }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>ایڈمن لاگ ان</h1>
+        <p>براہ کرم اپنے اسناد درج کریں۔</p>
+        <form id="login-form" class="login-form">
+            <input type="text" id="username" placeholder="یوزر نیم" required>
+            <input type="password" id="password" placeholder="پاس ورڈ" required>
+            <button type="submit" class="btn">لاگ ان کریں</button>
+        </form>
+        <p id="error-message">یوزر نیم یا پاس ورڈ غلط ہے۔</p>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            // ابھی کے لیے، ہم یوزر نیم اور پاس ورڈ کو یہیں کوڈ میں رکھ رہے ہیں۔
+            // مستقبل میں اسے محفوظ طریقے سے سرور پر رکھا جائے گا۔
+            if (username === 'admin' && password === 'password123') {
+                // کامیاب لاگ ان پر، ایڈمن صفحے پر بھیج دیں۔
+                window.location.href = 'admin.html';
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
