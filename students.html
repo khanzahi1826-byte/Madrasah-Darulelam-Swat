@@ -118,6 +118,7 @@
             margin-left: 15px;
             font-size: 1.2rem;
             text-decoration: none;
+            cursor: pointer;
         }
         .students-table .actions a:hover {
             color: var(--secondary-color);
@@ -161,31 +162,55 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const studentsList = document.getElementById('students-list');
-            const students = JSON.parse(localStorage.getItem('students')) || [];
+            let students = JSON.parse(localStorage.getItem('students')) || [];
 
-            if (students.length === 0) {
-                studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">کوئی طالب علم موجود نہیں ہے۔</td></tr>`;
-            } else {
-                students.forEach(student => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${student.id}</td>
-                        <td>${student.name}</td>
-                        <td>${student.fatherName}</td>
-                        <td>${student.department}</td>
-                        <td class="actions">
-                            <a href="#" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
-                            <a href="#" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
-                            <a href="#" title="حذف کریں"><i class="fa fa-trash"></i></a>
-                        </td>
-                    `;
-                    studentsList.appendChild(row);
-                });
+            function renderTable() {
+                studentsList.innerHTML = ''; // Clear the table
+                if (students.length === 0) {
+                    studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">کوئی طالب علم موجود نہیں ہے۔</td></tr>`;
+                } else {
+                    students.forEach(student => {
+                        const row = document.createElement('tr');
+                        row.setAttribute('data-id', student.id);
+                        row.innerHTML = `
+                            <td>${student.id}</td>
+                            <td>${student.name}</td>
+                            <td>${student.fatherName}</td>
+                            <td>${student.department}</td>
+                            <td class="actions">
+                                <a href="#" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
+                                <a href="#" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
+                                <a href="#" class="delete-btn" title="حذف کریں"><i class="fa fa-trash"></i></a>
+                            </td>
+                        `;
+                        studentsList.appendChild(row);
+                    });
+                }
             }
-        });
 
-        document.getElementById('logout-btn')?.addEventListener('click', function() {
-            window.location.href = 'login.html';
+            function handleDelete(e) {
+                const target = e.target.closest('.delete-btn');
+                if (!target) return;
+                e.preventDefault();
+
+                const row = target.closest('tr');
+                const studentId = Number(row.getAttribute('data-id'));
+
+                if (confirm('کیا آپ واقعی اس طالب علم کا ریکارڈ حذف کرنا چاہتے ہیں؟')) {
+                    students = students.filter(student => student.id !== studentId);
+                    localStorage.setItem('students', JSON.stringify(students));
+                    renderTable(); 
+                    alert('طالب علم کا ریکارڈ کامیابی سے حذف کر دیا گیا ہے۔');
+                }
+            }
+
+            renderTable();
+
+            studentsList.addEventListener('click', handleDelete);
+
+            document.getElementById('logout-btn')?.addEventListener('click', function() {
+                window.location.href = 'login.html';
+            });
         });
     </script>
 </body>
