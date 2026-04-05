@@ -135,7 +135,7 @@
                 <div class="widget">
                     <i class="fa fa-users"></i>
                     <h3>کل طلباء</h3>
-                    <p>0</p>
+                    <p id="total-students-count">0</p>
                 </div>
                 <div class="widget">
                     <i class="fa fa-book-open"></i>
@@ -151,9 +151,33 @@
         </main>
     </div>
 
+    <!-- Firebase کی لائبریریاں -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <!-- Firebase کی کنفیگریشن فائل -->
+    <script src="firebase.js"></script>
+
     <script>
+        // لاگ آؤٹ بٹن
         document.getElementById('logout-btn').addEventListener('click', function() {
             window.location.href = 'login.html';
+        });
+
+        // ڈیش بورڈ کے اعداد و شمار لوڈ کریں
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // کل طلباء کی تعداد حاصل کریں
+                const students = await getStudents(); // firebase.js سے
+                const totalStudents = students.length;
+                
+                // ڈیش بورڈ پر تعداد دکھائیں
+                document.getElementById('total-students-count').textContent = totalStudents;
+
+            } catch (error) {
+                console.error("ڈیش بورڈ کے اعداد و شمار لوڈ کرتے ہوئے خرابی: ", error);
+                document.getElementById('total-students-count').textContent = 'Error';
+            }
         });
     </script>
 </body>
