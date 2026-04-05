@@ -116,7 +116,7 @@
                         <form id="edit-student-form">
                             <div class="form-group">
                                 <label>رول نمبر</label>
-                                <input type="text" value="${student.id.substring(0,6).toUpperCase()}" disabled>
+                                <input type="text" value="${student.rollNumber || student.id}" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="name">نام</label>

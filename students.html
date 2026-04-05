@@ -143,11 +143,11 @@
                 if (students.length === 0) {
                     studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">اس تلاش کے مطابق کوئی طالب علم نہیں ملا۔</td></tr>`;
                 } else {
-                    students.sort((a, b) => a.id.localeCompare(b.id)).forEach(student => {
+                     students.sort((a, b) => (a.rollNumber || a.id).localeCompare(b.rollNumber || b.id)).forEach(student => {
                         const row = document.createElement('tr');
                         row.setAttribute('data-id', student.id);
                         row.innerHTML = `
-                            <td>${student.id.substring(0, 6).toUpperCase()}</td>
+                            <td>${student.rollNumber || student.id.substring(0, 6).toUpperCase()}</td>
                             <td>${student.name}</td>
                             <td>${student.fatherName}</td>
                             <td>${student.department}</td>
@@ -172,7 +172,7 @@
                 }
 
                 const filteredStudents = allStudents.filter(student => {
-                    const studentId = student.id.substring(0, 6).toLowerCase();
+                    const studentId = (student.rollNumber || student.id).toString().toLowerCase();
                     const studentName = student.name ? student.name.toLowerCase() : '';
                     const fatherName = student.fatherName ? student.fatherName.toLowerCase() : '';
                     

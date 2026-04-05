@@ -1,3 +1,4 @@
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBlzq8dkN7CqjjQ1IT8eCgEmKa0QMrHHE4",
@@ -45,14 +46,36 @@ async function getStudentById(id) {
 }
 
 /**
- * ایک نیا طالب علم ڈیٹا بیس میں شامل کرتا ہے
+ * ایک نیا طالب علم ڈیٹا بیس میں شامل کرتا ہے اور اسے ایک عددی رول نمبر تفویض کرتا ہے
  * @param {Object} studentData - طالب علم کا ڈیٹا آبجیکٹ
- * @returns {Promise<string>} نئے بنائے گئے دستاویز کا ID
+ * @returns {Promise<string>} نئے بنائے گئے دستاویز کا ID (جو کہ رول نمبر ہو گا)
  */
 async function addStudent(studentData) {
-    const docRef = await db.collection("students").add(studentData);
-    return docRef.id;
+    const counterRef = db.collection('counters').doc('students');
+
+    // ٹرانزیکشن کا استعمال کریں تاکہ رول نمبر یونیک رہے
+    const newRollNumber = await db.runTransaction(async (transaction) => {
+        const counterDoc = await transaction.get(counterRef);
+        let nextRoll;
+        if (!counterDoc.exists) {
+            // اگر کاؤنٹر موجود نہیں ہے، تو 1001 سے شروع کریں
+            nextRoll = 1001;
+        } else {
+            nextRoll = counterDoc.data().current + 1;
+        }
+        transaction.set(counterRef, { current: nextRoll });
+        return nextRoll;
+    });
+
+    // نئے طالب علم کا ڈاکومنٹ اس کے رول نمبر کے ساتھ بنائیں
+    const studentId = String(newRollNumber);
+    const dataWithRollNumber = { ...studentData, rollNumber: newRollNumber };
+    
+    await db.collection("students").doc(studentId).set(dataWithRollNumber);
+    
+    return studentId;
 }
+
 
 /**
  * ایک موجودہ طالب علم کی معلومات کو اپ ڈیٹ کرتا ہے
@@ -61,7 +84,9 @@ async function addStudent(studentData) {
  * @returns {Promise<void>}
  */
 async function updateStudent(id, updatedData) {
-    await db.collection("students").doc(id).update(updatedData);
+    // rollNumber کو اپ ڈیٹ سے بچانے کے لیے اسے ہٹا دیں
+    const { rollNumber, ...data } = updatedData;
+    await db.collection("students").doc(id).update(data);
 }
 
 /**

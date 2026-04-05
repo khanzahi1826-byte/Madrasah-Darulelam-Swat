@@ -121,7 +121,7 @@
                 detailsWrapper.innerHTML = `
                     <div class="details-container">
                         <div class="details-grid">
-                            <div class="detail-item"><strong>رول نمبر:</strong> <span>${student.id.substring(0,6).toUpperCase()}</span></div>
+                             <div class="detail-item"><strong>رول نمبر:</strong> <span>${student.rollNumber || student.id.substring(0,6).toUpperCase()}</span></div>
                             <div class="detail-item"><strong>نام:</strong> <span>${student.name}</span></div>
                             <div class="detail-item"><strong>والد کا نام:</strong> <span>${student.fatherName}</span></div>
                             <div class="detail-item"><strong>تاریخ پیدائش:</strong> <span>${new Date(student.dob).toLocaleDateString('ur-PK')}</span></div>
