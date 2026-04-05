@@ -40,6 +40,22 @@
             display: inline-block; background: var(--primary-color); color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 1.1rem; transition: background 0.3s ease; border: none; cursor: pointer; font-family: 'Noto Nastaliq Urdu', sans-serif;
         }
         .btn:hover { background: #00382e; }
+        
+        /* سرچ بار کے اسٹائلز */
+        .search-container {
+            margin-bottom: 20px;
+        }
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-family: var(--font-family);
+            font-size: 1.1rem;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+
         .students-table {
             width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
@@ -80,6 +96,11 @@
                 <a href="add-student.html" class="btn"><i class="fa fa-plus"></i> نیا طالب علم شامل کریں</a>
             </header>
             
+            <!-- سرچ بار -->
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="طالب علم کو نام، والد کے نام، یا رول نمبر سے تلاش کریں...">
+            </div>
+
             <table class="students-table">
                 <thead>
                     <tr>
@@ -109,39 +130,69 @@
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
             const studentsList = document.getElementById('students-list');
+            const searchInput = document.getElementById('searchInput');
+            let allStudents = []; // تمام طلباء کو یہاں محفوظ کریں گے
 
-            async function renderTable() {
+            // یہ فنکشن طلباء کی فہرست کو ٹیبل میں دکھاتا ہے
+            function renderTable(students) {
+                studentsList.innerHTML = ''; // پرانی فہرست صاف کریں
+
+                if (students.length === 0) {
+                    studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">اس تلاش کے مطابق کوئی طالب علم نہیں ملا۔</td></tr>`;
+                } else {
+                    students.sort((a, b) => a.id.localeCompare(b.id)).forEach(student => {
+                        const row = document.createElement('tr');
+                        row.setAttribute('data-id', student.id);
+                        row.innerHTML = `
+                            <td>${student.id.substring(0, 6).toUpperCase()}</td>
+                            <td>${student.name}</td>
+                            <td>${student.fatherName}</td>
+                            <td>${student.department}</td>
+                            <td class="actions">
+                                <a href="student-details.html?id=${student.id}" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
+                                <a href="edit-student.html?id=${student.id}" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
+                                <a href="#" class="delete-btn" title="حذف کریں"><i class="fa fa-trash"></i></a>
+                            </td>
+                        `;
+                        studentsList.appendChild(row);
+                    });
+                }
+            }
+
+            // یہ فنکشن سرچ بار میں لکھنے پر کام کرتا ہے
+            function handleSearch() {
+                const query = searchInput.value.toLowerCase().trim();
+                
+                if (!query) {
+                    renderTable(allStudents); // اگر سرچ خالی ہے تو سب کو دکھائیں
+                    return;
+                }
+
+                const filteredStudents = allStudents.filter(student => {
+                    const studentId = student.id.substring(0, 6).toLowerCase();
+                    const studentName = student.name ? student.name.toLowerCase() : '';
+                    const fatherName = student.fatherName ? student.fatherName.toLowerCase() : '';
+                    
+                    return studentName.includes(query) || 
+                           fatherName.includes(query) || 
+                           studentId.includes(query);
+                });
+
+                renderTable(filteredStudents);
+            }
+
+            // ابتدائی ڈیٹا لوڈ کرنے کا فنکشن
+            async function loadInitialData() {
                 try {
-                    const students = await getStudents(); // firebase.js سے
-                    studentsList.innerHTML = ''; // پرانی فہرست صاف کریں
-
-                    if (students.length === 0) {
-                        studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">کوئی طالب علم موجود نہیں ہے۔</td></tr>`;
-                    } else {
-                        // Firebase سے آنے والا رول نمبر اب doc.id ہے
-                        students.sort((a, b) => a.id.localeCompare(b.id)).forEach(student => {
-                            const row = document.createElement('tr');
-                            row.setAttribute('data-id', student.id);
-                            row.innerHTML = `
-                                <td>${student.id.substring(0, 6)}...</td>
-                                <td>${student.name}</td>
-                                <td>${student.fatherName}</td>
-                                <td>${student.department}</td>
-                                <td class="actions">
-                                    <a href="student-details.html?id=${student.id}" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
-                                    <a href="edit-student.html?id=${student.id}" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
-                                    <a href="#" class="delete-btn" title="حذف کریں"><i class="fa fa-trash"></i></a>
-                                </td>
-                            `;
-                            studentsList.appendChild(row);
-                        });
-                    }
+                    allStudents = await getStudents(); // firebase.js سے
+                    renderTable(allStudents);
                 } catch (error) {
                     console.error("Firebase سے ڈیٹا لاتے ہوئے خرابی: ", error);
                     studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: red;">ڈیٹا لوڈ کرنے میں ناکامی! براہ کرم کنسول چیک کریں۔</td></tr>`;
                 }
             }
 
+            // حذف کرنے والے بٹن کا فنکشن
             async function handleTableClick(e) {
                 const deleteBtn = e.target.closest('.delete-btn');
                 if (deleteBtn) {
@@ -153,7 +204,8 @@
                         try {
                             await deleteStudent(studentId); // firebase.js سے
                             alert('طالب علم کا ریکارڈ کامیابی سے حذف کر دیا گیا ہے۔');
-                            renderTable(); // حذف کرنے کے بعد ٹیبل کو دوبارہ لوڈ کریں
+                            // حذف کرنے کے بعد تازہ ترین ڈیٹا دوبارہ لوڈ کریں
+                            await loadInitialData(); 
                         } catch (error) {
                             console.error("ریکارڈ حذف کرتے ہوئے خرابی: ", error);
                             alert('ریکارڈ حذف کرنے میں ناکامی!');
@@ -162,9 +214,12 @@
                 }
             }
 
-            await renderTable();
-
+            // ایونٹ لسنرز کو جوڑیں
+            searchInput.addEventListener('input', handleSearch);
             studentsList.addEventListener('click', handleTableClick);
+
+            // صفحہ لوڈ ہونے پر ڈیٹا لوڈ کریں
+            await loadInitialData();
         });
     </script>
 </body>
