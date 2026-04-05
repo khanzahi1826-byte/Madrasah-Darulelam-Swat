@@ -7,84 +7,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
-        :root {
-            --primary-color: #004d40;
-            --secondary-color: #d4af37;
-            --light-color: #f5f5f5;
-            --dark-color: #212121;
-            --font-family: 'Noto Nastaliq Urdu', serif;
-        }
-        body {
-            font-family: var(--font-family);
-            direction: rtl;
-            background-color: var(--light-color);
-            margin: 0;
-        }
-        .admin-wrapper {
-            display: flex;
-        }
-        .sidebar {
-            width: 250px;
-            background: var(--primary-color);
-            color: #fff;
-            padding: 20px;
-        }
+        :root { --primary-color: #004d40; --secondary-color: #d4af37; --light-color: #f5f5f5; --dark-color: #212121; --font-family: 'Noto Nastaliq Urdu', serif; }
+        body { font-family: var(--font-family); direction: rtl; background-color: var(--light-color); margin: 0; }
+        .admin-wrapper { display: flex; }
+        .sidebar { width: 250px; background: var(--primary-color); color: #fff; padding: 20px; }
         .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.8rem; }
         .sidebar ul { list-style: none; padding: 0; }
-        .sidebar ul li a {
-            display: block; color: #fff; text-decoration: none;
-            padding: 15px; font-size: 1.2rem; border-radius: 5px;
-            transition: background 0.3s ease;
-        }
+        .sidebar ul li a { display: block; color: #fff; text-decoration: none; padding: 15px; font-size: 1.2rem; border-radius: 5px; transition: background 0.3s ease; }
         .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--secondary-color); }
         .sidebar ul li a .fa { margin-left: 10px; }
         .main-content { flex: 1; padding: 25px; }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fff;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 25px;
-        }
+        header { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px; }
         header h1 { margin: 0; font-size: 2.5rem; }
-         .btn {
-            display: inline-block;
-            background: var(--primary-color);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: background 0.3s ease; border: none;
-            cursor: pointer;
-            font-family: 'Noto Nastaliq Urdu', sans-serif;
-        }
-        .details-container {
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .details-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px 40px;
-        }
-        .detail-item {
-            font-size: 1.2rem;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        .detail-item strong {
-            color: var(--primary-color);
-            margin-left: 15px;
-        }
-         .full-width {
-            grid-column: 1 / -1;
-        }
+        .btn { display: inline-block; background: var(--primary-color); color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 1.1rem; transition: background 0.3s ease; border: none; cursor: pointer; font-family: 'Noto Nastaliq Urdu', sans-serif; }
+        .details-container { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .details-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px 40px; }
+        .detail-item { font-size: 1.2rem; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        .detail-item strong { color: var(--primary-color); margin-left: 15px; }
+        .full-width { grid-column: 1 / -1; }
+        .loading { font-size: 1.5rem; text-align: center; padding: 40px; }
     </style>
 </head>
 <body>
@@ -105,42 +46,54 @@
                 <a href="students.html" class="btn"><i class="fa fa-arrow-right"></i> واپس طلباء کی فہرست پر</a>
             </header>
             <div class="details-container" id="student-details-content">
-                <!-- تفصیلات یہاں بھری جائیں گی -->
+                <p class="loading">تفصیلات لوڈ ہو رہی ہیں...</p>
             </div>
         </main>
     </div>
+
+    <!-- Firebase کی لائبریریاں -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <!-- Firebase کی کنفیگریشن فائل -->
+    <script src="firebase.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', async function() {
             const detailsContent = document.getElementById('student-details-content');
             const urlParams = new URLSearchParams(window.location.search);
-            const studentId = parseInt(urlParams.get('id'));
+            const studentId = urlParams.get('id');
 
             if (!studentId) {
-                detailsContent.innerHTML = '<p>طالب علم کا ID فراہم نہیں کیا گیا۔</p>';
+                detailsContent.innerHTML = '<p style="color: red;">طالب علم کا ID فراہم نہیں کیا گیا۔</p>';
                 return;
             }
 
-            const students = JSON.parse(localStorage.getItem('students')) || [];
-            const student = students.find(s => s.id === studentId);
+            try {
+                const student = await getStudentById(studentId); // firebase.js سے
 
-            if (!student) {
-                detailsContent.innerHTML = '<p>اس ID کے ساتھ کوئی طالب علم نہیں ملا۔</p>';
-                return;
+                if (!student) {
+                    detailsContent.innerHTML = '<p style="color: red;">اس ID کے ساتھ کوئی طالب علم نہیں ملا۔</p>';
+                    return;
+                }
+
+                detailsContent.innerHTML = `
+                    <div class="details-grid">
+                        <div class="detail-item"><strong>نام:</strong> ${student.name}</div>
+                        <div class="detail-item"><strong>ولدیت:</strong> ${student.fatherName}</div>
+                        <div class="detail-item"><strong>تاریخ پیدائش:</strong> ${student.dob}</div>
+                        <div class="detail-item"><strong>رجسٹریشن تاریخ:</strong> ${student.regDate}</div>
+                        <div class="detail-item"><strong>شعبہ:</strong> ${student.department}</div>
+                        <div class="detail-item"><strong>شناختی کارڈ:</strong> ${student.cnic || '-'}</div>
+                        <div class="detail-item"><strong>موبائل نمبر:</strong> ${student.mobile || '-'}</div>
+                        <div class="detail-item full-width"><strong>مستقل پتہ:</strong> ${student.permAddress || '-'}</div>
+                        <div class="detail-item full-width"><strong>عارضی پتہ:</strong> ${student.tempAddress || '-'}</div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error("تفصیلات لاتے ہوئے خرابی: ", error);
+                detailsContent.innerHTML = '<p style="color: red;">تفصیلات لوڈ کرنے میں ناکامی! براہ کرم کنسول چیک کریں۔</p>';
             }
-
-            detailsContent.innerHTML = `
-                <div class="details-grid">
-                    <div class="detail-item"><strong>نام:</strong> ${student.name}</div>
-                    <div class="detail-item"><strong>ولدیت:</strong> ${student.fatherName}</div>
-                    <div class="detail-item"><strong>تاریخ پیدائش:</strong> ${student.dob}</div>
-                    <div class="detail-item"><strong>رجسٹریشن تاریخ:</strong> ${student.regDate}</div>
-                    <div class="detail-item"><strong>شعبہ:</strong> ${student.department}</div>
-                    <div class="detail-item"><strong>شناختی کارڈ:</strong> ${student.cnic || '-'}</div>
-                    <div class="detail-item"><strong>موبائل نمبر:</strong> ${student.mobile || '-'}</div>
-                    <div class="detail-item full-width"><strong>مستقل پتہ:</strong> ${student.permAddress || '-'}</div>
-                    <div class="detail-item full-width"><strong>عارضی پتہ:</strong> ${student.tempAddress || '-'}</div>
-                </div>
-            `;
         });
     </script>
 </body>

@@ -7,92 +7,33 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
-        :root {
-            --primary-color: #004d40;
-            --secondary-color: #d4af37;
-            --light-color: #f5f5f5;
-            --dark-color: #212121;
-            --font-family: 'Noto Nastaliq Urdu', serif;
-        }
-        body {
-            font-family: var(--font-family);
-            direction: rtl;
-            background-color: var(--light-color);
-            margin: 0;
-        }
-        .admin-wrapper {
-            display: flex;
-        }
-        .sidebar {
-            width: 250px;
-            background: var(--primary-color);
-            color: #fff;
-            padding: 20px;
-        }
+        :root { --primary-color: #004d40; --secondary-color: #d4af37; --light-color: #f5f5f5; --dark-color: #212121; --font-family: 'Noto Nastaliq Urdu', serif; }
+        body { font-family: var(--font-family); direction: rtl; background-color: var(--light-color); margin: 0; }
+        .admin-wrapper { display: flex; }
+        .sidebar { width: 250px; background: var(--primary-color); color: #fff; padding: 20px; }
         .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.8rem; }
         .sidebar ul { list-style: none; padding: 0; }
-        .sidebar ul li a {
-            display: block; color: #fff; text-decoration: none;
-            padding: 15px; font-size: 1.2rem; border-radius: 5px;
-            transition: background 0.3s ease;
-        }
+        .sidebar ul li a { display: block; color: #fff; text-decoration: none; padding: 15px; font-size: 1.2rem; border-radius: 5px; transition: background 0.3s ease; }
         .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--secondary-color); }
         .sidebar ul li a .fa { margin-left: 10px; }
         .main-content { flex: 1; padding: 25px; }
-        header {
-            display: flex; justify-content: space-between; align-items: center;
-            background: #fff; padding: 15px 25px; border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;
-        }
+        header { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px; }
         header h1 { margin: 0; font-size: 2.5rem; }
-        .form-container {
-            background: #fff; padding: 30px; border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-        .form-group label {
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-        .form-group input, .form-group select, .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-family: inherit;
-            font-size: 1.1rem;
-            box-sizing: border-box;
-        }
-        .full-width {
-            grid-column: 1 / -1;
-        }
-        .form-actions {
-            grid-column: 1 / -1;
-            text-align: left;
-            margin-top: 20px;
-        }
-        .btn {
-            display: inline-block; background: var(--primary-color); color: #fff;
-            padding: 12px 25px; border-radius: 5px; text-decoration: none;
-            font-size: 1.1rem; transition: background 0.3s ease; border: none;
-            cursor: pointer; font-family: 'Noto Nastaliq Urdu', sans-serif;
-        }
+        .form-container { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { margin-bottom: 10px; font-size: 1.1rem; font-weight: bold; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit; font-size: 1.1rem; box-sizing: border-box; }
+        .full-width { grid-column: 1 / -1; }
+        .form-actions { grid-column: 1 / -1; text-align: left; margin-top: 20px; }
+        .btn { display: inline-block; background: var(--primary-color); color: #fff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-size: 1.1rem; transition: background 0.3s ease; border: none; cursor: pointer; font-family: 'Noto Nastaliq Urdu', sans-serif; }
         .btn-secondary { background-color: #6c757d; }
     </style>
 </head>
 <body>
     <div class="admin-wrapper">
         <aside class="sidebar">
-            <h2>ایڈمن پینل</h2>
+             <h2>ایڈمن پینل</h2>
             <ul>
                 <li><a href="admin.html"><i class="fa fa-tachometer-alt"></i> ڈیش بورڈ</a></li>
                 <li><a href="students.html" class="active"><i class="fa fa-users"></i> طلباء</a></li>
@@ -102,77 +43,43 @@
             </ul>
         </aside>
         <main class="main-content">
-            <header>
-                <h1>نئے طالب علم کا اندراج</h1>
-            </header>
+            <header><h1>نئے طالب علم کا اندراج</h1></header>
             <div class="form-container">
                 <form id="add-student-form">
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label for="student-name">نام طالب علم</label>
-                            <input type="text" id="student-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="father-name">ولدیت</label>
-                            <input type="text" id="father-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="dob">تاریخ پیدائش</label>
-                            <input type="date" id="dob" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="reg-date">رجسٹریشن تاریخ</label>
-                            <input type="date" id="reg-date" readonly>
-                        </div>
-                         <div class="form-group">
-                            <label for="department">شعبہ</label>
-                            <select id="department" required>
-                                <option value="" disabled selected>ایک شعبہ منتخب کریں</option>
-                                <option value="درس نظامی">درس نظامی (عالم کورس)</option>
-                                <option value="عربی زبان">عربی زبان و ادب</option>
-                                <option value="تحفیظ القرآن">تحفیظ القرآن</option>
-                                <option value="تجوید و قرات">تجوید و قرات</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="cnic">شناختی کارڈ نمبر</label>
-                            <input type="text" id="cnic">
-                        </div>
-                        <div class="form-group">
-                            <label for="mobile-number">موبائل نمبر</label>
-                            <input type="tel" id="mobile-number">
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="permanent-address">مستقل پتہ</label>
-                            <textarea id="permanent-address" rows="3"></textarea>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="temporary-address">عارضی پتہ</label>
-                            <textarea id="temporary-address" rows="3"></textarea>
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn">محفوظ کریں</button>
-                            <a href="students.html" class="btn btn-secondary">منسوخ کریں</a>
-                        </div>
+                        <div class="form-group"><label for="student-name">نام طالب علم</label><input type="text" id="student-name" required></div>
+                        <div class="form-group"><label for="father-name">ولدیت</label><input type="text" id="father-name" required></div>
+                        <div class="form-group"><label for="dob">تاریخ پیدائش</label><input type="date" id="dob" required></div>
+                        <div class="form-group"><label for="reg-date">رجسٹریشن تاریخ</label><input type="date" id="reg-date" readonly></div>
+                        <div class="form-group"><label for="department">شعبہ</label><select id="department" required><option value="" disabled selected>ایک شعبہ منتخب کریں</option><option value="درس نظامی">درس نظامی (عالم کورس)</option><option value="عربی زبان">عربی زبان و ادب</option><option value="تحفیظ القرآن">تحفیظ القرآن</option><option value="تجوید و قرات">تجوید و قرات</option></select></div>
+                        <div class="form-group"><label for="cnic">شناختی کارڈ نمبر</label><input type="text" id="cnic"></div>
+                        <div class="form-group"><label for="mobile-number">موبائل نمبر</label><input type="tel" id="mobile-number"></div>
+                        <div class="form-group full-width"><label for="permanent-address">مستقل پتہ</label><textarea id="permanent-address" rows="3"></textarea></div>
+                        <div class="form-group full-width"><label for="temporary-address">عارضی پتہ</label><textarea id="temporary-address" rows="3"></textarea></div>
+                        <div class="form-actions"><button type="submit" class="btn">محفوظ کریں</button><a href="students.html" class="btn btn-secondary">منسوخ کریں</a></div>
                     </div>
                 </form>
             </div>
         </main>
     </div>
+
+    <!-- Firebase کی لائبریریاں -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <!-- Firebase کی کنفیگریشن فائل -->
+    <script src="firebase.js"></script>
+
     <script>
-        // Set registration date to today
         document.getElementById('reg-date').valueAsDate = new Date();
 
-        // Handle form submission
-        document.getElementById('add-student-form').addEventListener('submit', function(e) {
+        document.getElementById('add-student-form').addEventListener('submit', async function(e) {
             e.preventDefault();
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'محفوظ کیا جا رہا ہے...';
 
-            // Get existing students from local storage, or initialize an empty array
-            const students = JSON.parse(localStorage.getItem('students')) || [];
-
-            // Create new student object with a unique ID
             const newStudent = {
-                id: Date.now(), // Simple unique ID
                 name: document.getElementById('student-name').value,
                 fatherName: document.getElementById('father-name').value,
                 dob: document.getElementById('dob').value,
@@ -184,15 +91,16 @@
                 tempAddress: document.getElementById('temporary-address').value,
             };
 
-            // Add the new student to the array
-            students.push(newStudent);
-
-            // Save the updated students array back to local storage
-            localStorage.setItem('students', JSON.stringify(students));
-
-            // Notify user and redirect
-            alert('طالب علم کا ڈیٹا کامیابی سے محفوظ ہو گیا!');
-            window.location.href = 'students.html';
+            try {
+                const docId = await addStudent(newStudent); // firebase.js سے
+                alert('طالب علم کا ڈیٹا کامیابی سے محفوظ ہو گیا!');
+                window.location.href = 'students.html';
+            } catch (error) {
+                console.error("ڈیٹا محفوظ کرتے ہوئے خرابی: ", error);
+                alert('ڈیٹا محفوظ کرنے میں ناکامی! براہ کرم دوبارہ کوشش کریں۔');
+                submitButton.disabled = false;
+                submitButton.textContent = 'محفوظ کریں';
+            }
         });
     </script>
 </body>

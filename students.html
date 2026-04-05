@@ -20,108 +20,45 @@
             background-color: var(--light-color);
             margin: 0;
         }
-        .admin-wrapper {
-            display: flex;
-            min-height: 100vh;
-        }
+        .admin-wrapper { display: flex; min-height: 100vh; }
         .sidebar {
-            width: 250px;
-            background: var(--primary-color);
-            color: #fff;
-            padding: 20px;
+            width: 250px; background: var(--primary-color); color: #fff; padding: 20px;
         }
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.8rem;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.8rem; }
+        .sidebar ul { list-style: none; padding: 0; }
         .sidebar ul li a {
-            display: block;
-            color: #fff;
-            text-decoration: none;
-            padding: 15px;
-            font-size: 1.2rem;
-            border-radius: 5px;
-            transition: background 0.3s ease;
+            display: block; color: #fff; text-decoration: none; padding: 15px; font-size: 1.2rem; border-radius: 5px; transition: background 0.3s ease;
         }
-        .sidebar ul li a:hover, .sidebar ul li a.active {
-            background: var(--secondary-color);
-        }
-        .sidebar ul li a .fa {
-            margin-left: 10px;
-        }
-        .main-content {
-            flex: 1;
-            padding: 25px;
-        }
+        .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--secondary-color); }
+        .sidebar ul li a .fa { margin-left: 10px; }
+        .main-content { flex: 1; padding: 25px; }
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fff;
-            padding: 15px 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 25px;
+            display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;
         }
-        header h1 {
-            margin: 0;
-            font-size: 2.5rem;
-        }
+        header h1 { margin: 0; font-size: 2.5rem; }
         .btn {
-            display: inline-block;
-            background: var(--primary-color);
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: background 0.3s ease;
-            border: none;
-            cursor: pointer;
-            font-family: 'Noto Nastaliq Urdu', sans-serif;
+            display: inline-block; background: var(--primary-color); color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 1.1rem; transition: background 0.3s ease; border: none; cursor: pointer; font-family: 'Noto Nastaliq Urdu', sans-serif;
         }
-        .btn:hover {
-            background: #00382e;
-        }
+        .btn:hover { background: #00382e; }
         .students-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .students-table th, .students-table td {
-            padding: 15px;
-            text-align: right;
-            border-bottom: 1px solid #ddd;
+            padding: 15px; text-align: right; border-bottom: 1px solid #ddd;
         }
         .students-table th {
-            background: var(--primary-color);
-            color: white;
-            font-size: 1.2rem;
+            background: var(--primary-color); color: white; font-size: 1.2rem;
         }
-        .students-table td {
-            font-size: 1.1rem;
-        }
-        .students-table tr:last-child td {
-            border-bottom: none;
-        }
+        .students-table td { font-size: 1.1rem; }
+        .students-table tr:last-child td { border-bottom: none; }
         .students-table .actions a {
-            color: var(--primary-color);
-            margin-left: 15px;
-            font-size: 1.2rem;
-            text-decoration: none;
-            cursor: pointer;
+            color: var(--primary-color); margin-left: 15px; font-size: 1.2rem; text-decoration: none; cursor: pointer;
         }
-        .students-table .actions a:hover {
-            color: var(--secondary-color);
+        .students-table .actions a:hover { color: var(--secondary-color); }
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.5rem;
         }
     </style>
 </head>
@@ -154,63 +91,80 @@
                     </tr>
                 </thead>
                 <tbody id="students-list">
-                    <!-- یہاں طلباء کی فہرست بھری جائے گی -->
+                    <tr class="loading-row">
+                        <td colspan="5" class="loading">ڈیٹا لوڈ ہو رہا ہے...</td>
+                    </tr>
                 </tbody>
             </table>
         </main>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const studentsList = document.getElementById('students-list');
-            let students = JSON.parse(localStorage.getItem('students')) || [];
 
-            function renderTable() {
-                studentsList.innerHTML = ''; // Clear the table
-                if (students.length === 0) {
-                    studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">کوئی طالب علم موجود نہیں ہے۔</td></tr>`;
-                } else {
-                    students.forEach(student => {
-                        const row = document.createElement('tr');
-                        row.setAttribute('data-id', student.id);
-                        row.innerHTML = `
-                            <td>${student.id}</td>
-                            <td>${student.name}</td>
-                            <td>${student.fatherName}</td>
-                            <td>${student.department}</td>
-                            <td class="actions">
-                                <a href="student-details.html?id=${student.id}" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
-                                <a href="edit-student.html?id=${student.id}" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
-                                <a href="#" class="delete-btn" title="حذف کریں"><i class="fa fa-trash"></i></a>
-                            </td>
-                        `;
-                        studentsList.appendChild(row);
-                    });
+    <!-- Firebase کی لائبریریاں -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <!-- Firebase کی کنفیگریشن فائل -->
+    <script src="firebase.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const studentsList = document.getElementById('students-list');
+
+            async function renderTable() {
+                try {
+                    const students = await getStudents(); // firebase.js سے
+                    studentsList.innerHTML = ''; // پرانی فہرست صاف کریں
+
+                    if (students.length === 0) {
+                        studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">کوئی طالب علم موجود نہیں ہے۔</td></tr>`;
+                    } else {
+                        // Firebase سے آنے والا رول نمبر اب doc.id ہے
+                        students.sort((a, b) => a.id.localeCompare(b.id)).forEach(student => {
+                            const row = document.createElement('tr');
+                            row.setAttribute('data-id', student.id);
+                            row.innerHTML = `
+                                <td>${student.id.substring(0, 6)}...</td>
+                                <td>${student.name}</td>
+                                <td>${student.fatherName}</td>
+                                <td>${student.department}</td>
+                                <td class="actions">
+                                    <a href="student-details.html?id=${student.id}" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
+                                    <a href="edit-student.html?id=${student.id}" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
+                                    <a href="#" class="delete-btn" title="حذف کریں"><i class="fa fa-trash"></i></a>
+                                </td>
+                            `;
+                            studentsList.appendChild(row);
+                        });
+                    }
+                } catch (error) {
+                    console.error("Firebase سے ڈیٹا لاتے ہوئے خرابی: ", error);
+                    studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: red;">ڈیٹا لوڈ کرنے میں ناکامی! براہ کرم کنسول چیک کریں۔</td></tr>`;
                 }
             }
 
-            function handleTableClick(e) {
+            async function handleTableClick(e) {
                 const deleteBtn = e.target.closest('.delete-btn');
                 if (deleteBtn) {
                     e.preventDefault();
                     const row = deleteBtn.closest('tr');
-                    const studentId = Number(row.getAttribute('data-id'));
+                    const studentId = row.getAttribute('data-id');
 
                     if (confirm('کیا آپ واقعی اس طالب علم کا ریکارڈ حذف کرنا چاہتے ہیں؟')) {
-                        students = students.filter(student => student.id !== studentId);
-                        localStorage.setItem('students', JSON.stringify(students));
-                        renderTable(); 
-                        alert('طالب علم کا ریکارڈ کامیابی سے حذف کر دیا گیا ہے۔');
+                        try {
+                            await deleteStudent(studentId); // firebase.js سے
+                            alert('طالب علم کا ریکارڈ کامیابی سے حذف کر دیا گیا ہے۔');
+                            renderTable(); // حذف کرنے کے بعد ٹیبل کو دوبارہ لوڈ کریں
+                        } catch (error) {
+                            console.error("ریکارڈ حذف کرتے ہوئے خرابی: ", error);
+                            alert('ریکارڈ حذف کرنے میں ناکامی!');
+                        }
                     }
                 }
             }
 
-            renderTable();
+            await renderTable();
 
             studentsList.addEventListener('click', handleTableClick);
-
-            document.getElementById('logout-btn')?.addEventListener('click', function() {
-                window.location.href = 'login.html';
-            });
         });
     </script>
 </body>
