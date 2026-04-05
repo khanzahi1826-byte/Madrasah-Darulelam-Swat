@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نیا طالب علم شامل کریں - ایڈمن پینل</title>
+    <title>نیا استاد شامل کریں - ایڈمن پینل</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
@@ -69,8 +69,8 @@
             <h2>ایڈمن پینل</h2>
             <ul>
                 <li><a href="admin.html"><i class="fa fa-tachometer-alt"></i> ڈیش بورڈ</a></li>
-                <li><a href="students.html" class="active"><i class="fa fa-users"></i> طلباء</a></li>
-                <li><a href="teachers.html"><i class="fa fa-chalkboard-teacher"></i> اساتذہ</a></li>
+                <li><a href="students.html"><i class="fa fa-users"></i> طلباء</a></li>
+                <li><a href="teachers.html" class="active"><i class="fa fa-chalkboard-teacher"></i> اساتذہ</a></li>
                 <li><a href="#"><i class="fa fa-book-open"></i> کورسز</a></li>
                 <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
                 <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
@@ -78,29 +78,17 @@
         </aside>
         <main class="main-content">
             <header>
-                <h1>نیا طالب علم شامل کریں</h1>
+                <h1>نیا استاد شامل کریں</h1>
             </header>
             <div class="form-container">
-                <form id="add-student-form">
+                <form id="add-teacher-form">
                     <div class="form-group">
                         <label for="name">نام</label>
                         <input type="text" id="name" required>
                     </div>
                     <div class="form-group">
-                        <label for="fatherName">والد کا نام</label>
-                        <input type="text" id="fatherName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="dob">تاریخ پیدائش</label>
-                        <input type="date" id="dob" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">پتہ</label>
-                        <input type="text" id="address" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">فون نمبر</label>
-                        <input type="tel" id="phone" required>
+                        <label for="designation">عہدہ</label>
+                        <input type="text" id="designation" required>
                     </div>
                     <div class="form-group">
                         <label for="department">شعبہ</label>
@@ -109,15 +97,20 @@
                             <option value="درس نظامی">درس نظامی</option>
                             <option value="تخصص فی الفقہ">تخصص فی الفقہ</option>
                             <option value="تخصص فی الحدیث">تخصص فی الحدیث</option>
+                            <option value="دیگر">دیگر</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="admissionDate">تاریخ داخلہ</label>
-                        <input type="date" id="admissionDate" required>
+                        <label for="phone">فون نمبر</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">پتہ</label>
+                        <input type="text" id="address" required>
                     </div>
                     <div class="form-actions">
-                        <button type="submit" class="btn">طالب علم شامل کریں</button>
-                        <a href="students.html" class="btn btn-secondary">منسوخ کریں</a>
+                        <button type="submit" class="btn">استاد شامل کریں</button>
+                        <a href="teachers.html" class="btn btn-secondary">منسوخ کریں</a>
                     </div>
                 </form>
             </div>
@@ -132,26 +125,24 @@
     <script src="firebase.js"></script>
 
     <script>
-        document.getElementById('add-student-form').addEventListener('submit', async function(e) {
+        document.getElementById('add-teacher-form').addEventListener('submit', async function(e) {
             e.preventDefault();
-            
-            const studentData = {
+
+            const teacherData = {
                 name: document.getElementById('name').value,
-                fatherName: document.getElementById('fatherName').value,
-                dob: document.getElementById('dob').value,
-                address: document.getElementById('address').value,
-                phone: document.getElementById('phone').value,
+                designation: document.getElementById('designation').value,
                 department: document.getElementById('department').value,
-                admissionDate: document.getElementById('admissionDate').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
             };
 
             try {
-                await addStudent(studentData);
-                alert('طالب علم کو کامیابی سے شامل کر دیا گیا ہے!');
-                window.location.href = 'students.html';
+                await addTeacher(teacherData);
+                alert('استاد کو کامیابی سے شامل کر دیا گیا ہے!');
+                window.location.href = 'teachers.html';
             } catch (error) {
-                console.error("طالب علم کو شامل کرتے وقت خرابی: ", error);
-                alert('طالب علم کو شامل کرنے میں ناکامی!');
+                console.error("استاد کو شامل کرتے وقت خرابی: ", error);
+                alert('استاد کو شامل کرنے میں ناکامی!');
             }
         });
     </script>

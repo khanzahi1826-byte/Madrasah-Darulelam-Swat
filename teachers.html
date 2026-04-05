@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طلباء کا مینجمنٹ - ایڈمن پینل</title>
+    <title>اساتذہ کا مینجمنٹ - ایڈمن پینل</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
@@ -57,24 +57,24 @@
             background-color: #fff;
         }
 
-        .students-table {
+        .teachers-table {
             width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        .students-table th, .students-table td {
+        .teachers-table th, .teachers-table td {
             padding: 12px 15px; text-align: right; border-bottom: 1px solid #eee;
         }
-        .students-table th {
+        .teachers-table th {
             background: var(--primary-color); color: white; font-size: 1.1rem;
         }
-        .students-table td { font-size: 1rem; }
-        .students-table tr:last-child td { border-bottom: none; }
-        .students-table tr:hover {
+        .teachers-table td { font-size: 1rem; }
+        .teachers-table tr:last-child td { border-bottom: none; }
+        .teachers-table tr:hover {
             background-color: #f9f9f9;
         }
-        .students-table .actions a {
+        .teachers-table .actions a {
             color: var(--primary-color); margin-left: 12px; font-size: 1.1rem; text-decoration: none; cursor: pointer;
         }
-        .students-table .actions a:hover { color: var(--secondary-color); }
+        .teachers-table .actions a:hover { color: var(--secondary-color); }
         .loading {
             text-align: center;
             padding: 40px;
@@ -88,8 +88,8 @@
             <h2>ایڈمن پینل</h2>
             <ul>
                 <li><a href="admin.html"><i class="fa fa-tachometer-alt"></i> ڈیش بورڈ</a></li>
-                <li><a href="students.html" class="active"><i class="fa fa-users"></i> طلباء</a></li>
-                <li><a href="teachers.html"><i class="fa fa-chalkboard-teacher"></i> اساتذہ</a></li>
+                <li><a href="students.html"><i class="fa fa-users"></i> طلباء</a></li>
+                <li><a href="teachers.html" class="active"><i class="fa fa-chalkboard-teacher"></i> اساتذہ</a></li>
                 <li><a href="#"><i class="fa fa-book-open"></i> کورسز</a></li>
                 <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
                 <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
@@ -97,25 +97,25 @@
         </aside>
         <main class="main-content">
             <header>
-                <h1>طلباء کا مینجمنٹ</h1>
-                <a href="add-student.html" class="btn"><i class="fa fa-plus"></i> نیا طالب علم</a>
+                <h1>اساتذہ کا مینجمنٹ</h1>
+                <a href="add-teacher.html" class="btn"><i class="fa fa-plus"></i> نیا استاد شامل کریں</a>
             </header>
             
             <div class="search-container">
-                <input type="text" id="searchInput" placeholder="طالب علم کو نام، والد کے نام، یا رول نمبر سے تلاش کریں...">
+                <input type="text" id="searchInput" placeholder="استاد کو نام، عہدے، یا ID سے تلاش کریں...">
             </div>
 
-            <table class="students-table">
+            <table class="teachers-table">
                 <thead>
                     <tr>
-                        <th>رول نمبر</th>
+                        <th>ID</th>
                         <th>نام</th>
-                        <th>والد کا نام</th>
+                        <th>عہدہ</th>
                         <th>شعبہ</th>
                         <th>کاروائیاں</th>
                     </tr>
                 </thead>
-                <tbody id="students-list">
+                <tbody id="teachers-list">
                     <tr class="loading-row">
                         <td colspan="5" class="loading">ڈیٹا لوڈ ہو رہا ہے...</td>
                     </tr>
@@ -133,82 +133,69 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
-            const studentsList = document.getElementById('students-list');
+            const teachersList = document.getElementById('teachers-list');
             const searchInput = document.getElementById('searchInput');
-            let allStudents = []; // تمام طلباء کو یہاں محفوظ کریں گے
+            let allTeachers = [];
 
-            // یہ فنکشن طلباء کی فہرست کو ٹیبل میں دکھاتا ہے
-            function renderTable(students) {
-                studentsList.innerHTML = ''; // پرانی فہرست صاف کریں
-
-                if (students.length === 0) {
-                    studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">اس تلاش کے مطابق کوئی طالب علم نہیں ملا۔</td></tr>`;
+            function renderTable(teachers) {
+                teachersList.innerHTML = '';
+                if (teachers.length === 0) {
+                    teachersList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">کوئی استاد نہیں ملا۔</td></tr>`;
                 } else {
-                     students.sort((a, b) => (a.rollNumber || a.id).localeCompare(b.rollNumber || b.id)).forEach(student => {
+                    teachers.forEach(teacher => {
                         const row = document.createElement('tr');
-                        row.setAttribute('data-id', student.id);
+                        row.setAttribute('data-id', teacher.id);
                         row.innerHTML = `
-                            <td>${student.rollNumber || student.id.substring(0, 6).toUpperCase()}</td>
-                            <td>${student.name}</td>
-                            <td>${student.fatherName}</td>
-                            <td>${student.department}</td>
+                            <td>${teacher.id.substring(0, 6).toUpperCase()}</td>
+                            <td>${teacher.name}</td>
+                            <td>${teacher.designation}</td>
+                            <td>${teacher.department}</td>
                             <td class="actions">
-                                <a href="student-details.html?id=${student.id}" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
-                                <a href="edit-student.html?id=${student.id}" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
+                                <a href="#" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
+                                <a href="#" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
                                 <a href="#" class="delete-btn" title="حذف کریں"><i class="fa fa-trash"></i></a>
                             </td>
                         `;
-                        studentsList.appendChild(row);
+                        teachersList.appendChild(row);
                     });
                 }
             }
 
-            // یہ فنکشن سرچ بار میں لکھنے پر کام کرتا ہے
             function handleSearch() {
                 const query = searchInput.value.toLowerCase().trim();
-                
                 if (!query) {
-                    renderTable(allStudents); // اگر سرچ خالی ہے تو سب کو دکھائیں
+                    renderTable(allTeachers);
                     return;
                 }
-
-                const filteredStudents = allStudents.filter(student => {
-                    const studentId = (student.rollNumber || student.id).toString().toLowerCase();
-                    const studentName = student.name ? student.name.toLowerCase() : '';
-                    const fatherName = student.fatherName ? student.fatherName.toLowerCase() : '';
-                    
-                    return studentName.includes(query) || 
-                           fatherName.includes(query) || 
-                           studentId.includes(query);
+                const filteredTeachers = allTeachers.filter(teacher => {
+                    const teacherId = teacher.id.toLowerCase();
+                    const teacherName = teacher.name ? teacher.name.toLowerCase() : '';
+                    const designation = teacher.designation ? teacher.designation.toLowerCase() : '';
+                    return teacherName.includes(query) || designation.includes(query) || teacherId.includes(query);
                 });
-
-                renderTable(filteredStudents);
+                renderTable(filteredTeachers);
             }
 
-            // ابتدائی ڈیٹا لوڈ کرنے کا فنکشن
             async function loadInitialData() {
                 try {
-                    allStudents = await getStudents(); // firebase.js سے
-                    renderTable(allStudents);
+                    allTeachers = await getTeachers();
+                    renderTable(allTeachers);
                 } catch (error) {
                     console.error("Firebase سے ڈیٹا لاتے ہوئے خرابی: ", error);
-                    studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: red;">ڈیٹا لوڈ کرنے میں ناکامی! براہ کرم کنسول چیک کریں۔</td></tr>`;
+                    teachersList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: red;">ڈیٹا لوڈ کرنے میں ناکامی!</td></tr>`;
                 }
             }
 
-            // حذف کرنے والے بٹن کا فنکشن
             async function handleTableClick(e) {
                 const deleteBtn = e.target.closest('.delete-btn');
                 if (deleteBtn) {
                     e.preventDefault();
                     const row = deleteBtn.closest('tr');
-                    const studentId = row.getAttribute('data-id');
-
-                    if (confirm('کیا آپ واقعی اس طالب علم کا ریکارڈ حذف کرنا چاہتے ہیں؟')) {
+                    const teacherId = row.getAttribute('data-id');
+                    if (confirm('کیا آپ واقعی اس استاد کا ریکارڈ حذف کرنا چاہتے ہیں؟')) {
                         try {
-                            await deleteStudent(studentId); // firebase.js سے
-                            alert('طالب علم کا ریکارڈ کامیابی سے حذف کر دیا گیا ہے۔');
-                            // حذف کرنے کے بعد تازہ ترین ڈیٹا دوبارہ لوڈ کریں
+                            await deleteTeacher(teacherId);
+                            alert('استاد کا ریکارڈ کامیابی سے حذف کر دیا گیا ہے۔');
                             await loadInitialData(); 
                         } catch (error) {
                             console.error("ریکارڈ حذف کرتے ہوئے خرابی: ", error);
@@ -218,11 +205,9 @@
                 }
             }
 
-            // ایونٹ لسنرز کو جوڑیں
             searchInput.addEventListener('input', handleSearch);
-            studentsList.addEventListener('click', handleTableClick);
+            teachersList.addEventListener('click', handleTableClick);
 
-            // صفحہ لوڈ ہونے پر ڈیٹا لوڈ کریں
             await loadInitialData();
         });
     </script>
