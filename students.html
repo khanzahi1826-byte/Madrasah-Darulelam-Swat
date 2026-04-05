@@ -14,67 +14,71 @@
             --dark-color: #212121;
             --font-family: 'Noto Nastaliq Urdu', serif;
         }
+        html { font-size: 16px; }
         body {
             font-family: var(--font-family);
             direction: rtl;
             background-color: var(--light-color);
             margin: 0;
+            font-size: 1rem;
         }
         .admin-wrapper { display: flex; min-height: 100vh; }
         .sidebar {
-            width: 250px; background: var(--primary-color); color: #fff; padding: 20px;
+            width: 240px; background: var(--primary-color); color: #fff; padding: 20px;
         }
-        .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.8rem; }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.5rem; }
         .sidebar ul { list-style: none; padding: 0; }
         .sidebar ul li a {
-            display: block; color: #fff; text-decoration: none; padding: 15px; font-size: 1.2rem; border-radius: 5px; transition: background 0.3s ease;
+            display: block; color: #fff; text-decoration: none; padding: 12px 15px; font-size: 1.1rem; border-radius: 5px; transition: background 0.3s ease;
         }
         .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--secondary-color); }
         .sidebar ul li a .fa { margin-left: 10px; }
-        .main-content { flex: 1; padding: 25px; }
+        .main-content { flex: 1; padding: 20px; }
         header {
-            display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;
+            display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px;
         }
-        header h1 { margin: 0; font-size: 2.5rem; }
+        header h1 { margin: 0; font-size: 1.8rem; }
         .btn {
-            display: inline-block; background: var(--primary-color); color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 1.1rem; transition: background 0.3s ease; border: none; cursor: pointer; font-family: 'Noto Nastaliq Urdu', sans-serif;
+            display: inline-block; background: var(--primary-color); color: #fff; padding: 10px 18px; border-radius: 5px; text-decoration: none; font-size: 1rem; transition: background 0.3s ease; border: none; cursor: pointer; font-family: 'Noto Nastaliq Urdu', sans-serif;
         }
         .btn:hover { background: #00382e; }
         
-        /* سرچ بار کے اسٹائلز */
         .search-container {
             margin-bottom: 20px;
         }
         #searchInput {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             border-radius: 5px;
             border: 1px solid #ddd;
             font-family: var(--font-family);
-            font-size: 1.1rem;
+            font-size: 1rem;
             box-sizing: border-box;
             background-color: #fff;
         }
 
         .students-table {
-            width: 100%; border-collapse: collapse; margin-top: 20px; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .students-table th, .students-table td {
-            padding: 15px; text-align: right; border-bottom: 1px solid #ddd;
+            padding: 12px 15px; text-align: right; border-bottom: 1px solid #eee;
         }
         .students-table th {
-            background: var(--primary-color); color: white; font-size: 1.2rem;
+            background: var(--primary-color); color: white; font-size: 1.1rem;
         }
-        .students-table td { font-size: 1.1rem; }
+        .students-table td { font-size: 1rem; }
         .students-table tr:last-child td { border-bottom: none; }
+        .students-table tr:hover {
+            background-color: #f9f9f9;
+        }
         .students-table .actions a {
-            color: var(--primary-color); margin-left: 15px; font-size: 1.2rem; text-decoration: none; cursor: pointer;
+            color: var(--primary-color); margin-left: 12px; font-size: 1.1rem; text-decoration: none; cursor: pointer;
         }
         .students-table .actions a:hover { color: var(--secondary-color); }
         .loading {
             text-align: center;
-            padding: 50px;
-            font-size: 1.5rem;
+            padding: 40px;
+            font-size: 1.2rem;
         }
     </style>
 </head>
@@ -93,10 +97,9 @@
         <main class="main-content">
             <header>
                 <h1>طلباء کا مینجمنٹ</h1>
-                <a href="add-student.html" class="btn"><i class="fa fa-plus"></i> نیا طالب علم شامل کریں</a>
+                <a href="add-student.html" class="btn"><i class="fa fa-plus"></i> نیا طالب علم</a>
             </header>
             
-            <!-- سرچ بار -->
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="طالب علم کو نام، والد کے نام، یا رول نمبر سے تلاش کریں...">
             </div>
