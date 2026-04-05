@@ -3,9 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طالب علم میں ترمیم کریں - ایڈمن پینل</title>
+    <title>طالب علم کی معلومات میں ترمیم - ایڈمن پینل</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="style.css"> 
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+        :root {
+            --primary-color: #004d40;
+            --secondary-color: #d4af37;
+            --light-color: #f5f5f5;
+            --dark-color: #212121;
+            --font-family: 'Noto Nastaliq Urdu', serif;
+        }
+        body { font-family: var(--font-family); direction: rtl; background-color: var(--light-color); margin: 0; }
+        .admin-wrapper { display: flex; }
+        .sidebar {
+            width: 250px; background: var(--primary-color); color: #fff; padding: 20px;
+        }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.8rem; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar ul li a {
+            display: block; color: #fff; text-decoration: none; padding: 15px; font-size: 1.2rem; border-radius: 5px; transition: background 0.3s ease;
+        }
+        .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--secondary-color); }
+        .sidebar ul li a .fa { margin-left: 10px; }
+        .main-content { flex: 1; padding: 25px; }
+        header {
+            display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 25px;
+        }
+        header h1 { margin: 0; font-size: 2.5rem; }
+        .form-container { background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { margin-bottom: 10px; font-size: 1.1rem; font-weight: bold; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit; font-size: 1.1rem; box-sizing: border-box;
+        }
+        .full-width { grid-column: 1 / -1; }
+        .form-actions { grid-column: 1 / -1; text-align: left; margin-top: 20px; }
+        .btn { display: inline-block; background: var(--primary-color); color: #fff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-size: 1.1rem; transition: background 0.3s ease; border: none; cursor: pointer; font-family: 'Noto Nastaliq Urdu', sans-serif; }
+        .btn-secondary { background-color: #6c757d; }
+    </style>
 </head>
 <body>
     <div class="admin-wrapper">
@@ -20,48 +57,20 @@
             </ul>
         </aside>
         <main class="main-content">
-            <header>
-                <h1>طالب علم کی معلومات میں ترمیم کریں</h1>
-            </header>
+            <header><h1>طالب علم کی معلومات میں ترمیم</h1></header>
             <div class="form-container">
                 <form id="edit-student-form">
                     <div class="form-grid">
-                        <div class="form-group">
-                            <label for="name">نام</label>
-                            <input type="text" id="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="father-name">والد کا نام</label>
-                            <input type="text" id="father-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="dob">تاریخ پیدائش</label>
-                            <input type="date" id="dob" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="department">شعبہ</label>
-                            <input type="text" id="department" required>
-                        </div>
-                         <div class="form-group">
-                            <label for="cnic">شناختی کارڈ نمبر</label>
-                            <input type="text" id="cnic">
-                        </div>
-                        <div class="form-group">
-                            <label for="mobile">موبائل نمبر</label>
-                            <input type="tel" id="mobile">
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="perm-address">مستقل پتہ</label>
-                            <textarea id="perm-address"></textarea>
-                        </div>
-                        <div class="form-group full-width">
-                            <label for="temp-address">عارضی پتہ</label>
-                            <textarea id="temp-address"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn">اپ ڈیٹ کریں</button>
-                        <a href="students.html" class="btn btn-secondary">منسوخ کریں</a>
+                        <div class="form-group"><label for="student-name">نام طالب علم</label><input type="text" id="student-name" required></div>
+                        <div class="form-group"><label for="father-name">ولدیت</label><input type="text" id="father-name" required></div>
+                        <div class="form-group"><label for="dob">تاریخ پیدائش</label><input type="date" id="dob" required></div>
+                        <div class="form-group"><label for="reg-date">رجسٹریشن تاریخ</label><input type="date" id="reg-date" readonly></div>
+                        <div class="form-group"><label for="department">شعبہ</label><select id="department" required><option value="" disabled>ایک شعبہ منتخب کریں</option><option value="درس نظامی">درس نظامی (عالم کورس)</option><option value="عربی زبان">عربی زبان و ادب</option><option value="تحفیظ القرآن">تحفیظ القرآن</option><option value="تجوید و قرات">تجوید و قرات</option></select></div>
+                        <div class="form-group"><label for="cnic">شناختی کارڈ نمبر</label><input type="text" id="cnic"></div>
+                        <div class="form-group"><label for="mobile-number">موبائل نمبر</label><input type="tel" id="mobile-number"></div>
+                        <div class="form-group full-width"><label for="permanent-address">مستقل پتہ</label><textarea id="permanent-address" rows="3"></textarea></div>
+                        <div class="form-group full-width"><label for="temporary-address">عارضی پتہ</label><textarea id="temporary-address" rows="3"></textarea></div>
+                        <div class="form-actions"><button type="submit" class="btn">اپ ڈیٹ کریں</button><a href="students.html" class="btn btn-secondary">منسوخ کریں</a></div>
                     </div>
                 </form>
             </div>
@@ -70,16 +79,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const studentId = Number(urlParams.get('id'));
-            const form = document.getElementById('edit-student-form');
-
-            if (!studentId) {
-                alert('طالب علم کا ID فراہم نہیں کیا گیا۔');
-                window.location.href = 'students.html';
-                return;
-            }
-
-            let students = JSON.parse(localStorage.getItem('students')) || [];
+            const studentId = parseInt(urlParams.get('id'));
+            const students = JSON.parse(localStorage.getItem('students')) || [];
             const student = students.find(s => s.id === studentId);
 
             if (!student) {
@@ -88,39 +89,47 @@
                 return;
             }
 
-            // Populate form
-            document.getElementById('name').value = student.name;
+            // Populate the form
+            document.getElementById('student-name').value = student.name;
             document.getElementById('father-name').value = student.fatherName;
             document.getElementById('dob').value = student.dob;
+            document.getElementById('reg-date').value = student.regDate;
             document.getElementById('department').value = student.department;
-            document.getElementById('cnic').value = student.cnic || '';
-            document.getElementById('mobile').value = student.mobile || '';
-            document.getElementById('perm-address').value = student.permAddress || '';
-            document.getElementById('temp-address').value = student.tempAddress || '';
+            document.getElementById('cnic').value = student.cnic;
+            document.getElementById('mobile-number').value = student.mobile;
+            document.getElementById('permanent-address').value = student.permAddress;
+            document.getElementById('temporary-address').value = student.tempAddress;
+        });
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
+        document.getElementById('edit-student-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const urlParams = new URLSearchParams(window.location.search);
+            const studentId = parseInt(urlParams.get('id'));
+            let students = JSON.parse(localStorage.getItem('students')) || [];
+            const studentIndex = students.findIndex(s => s.id === studentId);
 
-                const updatedStudent = {
-                    ...student,
-                    name: document.getElementById('name').value,
-                    fatherName: document.getElementById('father-name').value,
-                    dob: document.getElementById('dob').value,
-                    department: document.getElementById('department').value,
-                    cnic: document.getElementById('cnic').value,
-                    mobile: document.getElementById('mobile').value,
-                    permAddress: document.getElementById('perm-address').value,
-                    tempAddress: document.getElementById('temp-address').value,
-                };
+            if (studentIndex === -1) {
+                alert('طالب علم نہیں ملا، اپ ڈیٹ نہیں کیا جا سکتا۔');
+                return;
+            }
 
-                const studentIndex = students.findIndex(s => s.id === studentId);
-                students[studentIndex] = updatedStudent;
-                
-                localStorage.setItem('students', JSON.stringify(students));
+            // Update student data
+            students[studentIndex] = {
+                id: studentId,
+                name: document.getElementById('student-name').value,
+                fatherName: document.getElementById('father-name').value,
+                dob: document.getElementById('dob').value,
+                regDate: document.getElementById('reg-date').value,
+                department: document.getElementById('department').value,
+                cnic: document.getElementById('cnic').value,
+                mobile: document.getElementById('mobile-number').value,
+                permAddress: document.getElementById('permanent-address').value,
+                tempAddress: document.getElementById('temporary-address').value,
+            };
 
-                alert('طالب علم کی معلومات کامیابی سے اپ ڈیٹ ہو گئی ہیں۔');
-                window.location.href = 'students.html';
-            });
+            localStorage.setItem('students', JSON.stringify(students));
+            alert('طالب علم کی معلومات کامیابی سے اپ ڈیٹ ہو گئیں۔');
+            window.location.href = 'students.html';
         });
     </script>
 </body>
