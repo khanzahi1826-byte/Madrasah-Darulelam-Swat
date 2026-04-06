@@ -51,6 +51,7 @@
             padding: 15px;
             border-radius: 5px;
             background-color: #f9f9f9;
+            line-height: 1.8;
         }
         .detail-item strong {
             display: block;
@@ -121,14 +122,17 @@
                 detailsWrapper.innerHTML = `
                     <div class="details-container">
                         <div class="details-grid">
-                            <div class="detail-item"><strong>رول نمبر:</strong> <span>${student.rollNumber}</span></div>
-                            <div class="detail-item"><strong>نام:</strong> <span>${student.name}</span></div>
-                            <div class="detail-item"><strong>والد کا نام:</strong> <span>${student.fatherName}</span></div>
-                            <div class="detail-item"><strong>تاریخ پیدائش:</strong> <span>${new Date(student.dob).toLocaleDateString('ur-PK')}</span></div>
-                            <div class="detail-item"><strong>پتہ:</strong> <span>${student.address}</span></div>
-                            <div class="detail-item"><strong>فون نمبر:</strong> <span>${student.phone}</span></div>
-                            <div class="detail-item"><strong>شعبہ:</strong> <span>${student.department}</span></div>
-                            <div class="detail-item"><strong>تاریخ داخلہ:</strong> <span>${new Date(student.admissionDate).toLocaleDateString('ur-PK')}</span></div>
+                            <div class="detail-item"><strong>رول نمبر:</strong> <span>${student.rollNumber || 'N/A'}</span></div>
+                            <div class="detail-item"><strong>نام:</strong> <span>${student.name || 'N/A'}</span></div>
+                            <div class="detail-item"><strong>والد کا نام:</strong> <span>${student.fatherName || 'N/A'}</span></div>
+                            <div class="detail-item"><strong>شناختی کارڈ نمبر:</strong> <span>${student.cnic || 'N/A'}</span></div>
+                            <div class="detail-item"><strong>تاریخ پیدائش:</strong> <span>${student.dob ? new Date(student.dob).toLocaleDateString('ur-PK') : 'N/A'}</span></div>
+                            <div class="detail-item"><strong>موبائل نمبر:</strong> <span>${student.mobileNumber || 'N/A'}</span></div>
+                            <div class="detail-item"><strong>مستقل پتہ:</strong> <span>${student.permanentAddress || 'N/A'}</span></div>
+                            <div class="detail-item"><strong>عارضی پتہ:</strong> <span>${student.temporaryAddress || 'N/A'}</span></div>
+                            <div class="detail-item"><strong>شعبہ:</strong> <span>${student.department || 'N/A'}</span></div>
+                            <div class="detail-item"><strong>تاریخ داخلہ:</strong> <span>${student.admissionDate ? new Date(student.admissionDate).toLocaleDateString('ur-PK') : 'N/A'}</span></div>
+                            <div class="detail-item"><strong>رجسٹریشن فیس:</strong> <span>${student.registrationFee ? `Rs. ${student.registrationFee}` : 'N/A'}</span></div>
                         </div>
                         <div class="action-buttons">
                             <a href="edit-student.html?id=${student.id}" class="btn">ترمیم کریں</a>
