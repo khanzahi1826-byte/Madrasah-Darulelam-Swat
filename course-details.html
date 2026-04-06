@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کورس کی تفصیلات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+        :root {
+            --primary-color: #004d40;
+            --secondary-color: #d4af37;
+            --light-color: #f5f5f5;
+            --dark-color: #212121;
+            --font-family: 'Noto Nastaliq Urdu', serif;
+        }
+        html { font-size: 16px; }
+        body {
+            font-family: var(--font-family);
+            direction: rtl;
+            background-color: var(--light-color);
+            margin: 0;
+            font-size: 1rem;
+        }
+        .admin-wrapper { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: 240px; background: var(--primary-color); color: #fff; padding: 20px;
+        }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.5rem; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar ul li a {
+            display: block; color: #fff; text-decoration: none; padding: 12px 15px; font-size: 1.1rem; border-radius: 5px; transition: background 0.3s ease;
+        }
+        .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--secondary-color); }
+        .sidebar ul li a .fa { margin-left: 10px; }
+        .main-content { flex: 1; padding: 20px; }
+        header {
+            display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px;
+        }
+        header h1 { margin: 0; font-size: 1.8rem; }
+        .details-container { background: #fff; padding: 30px; border-radius: 8px; }
+        .loading-text { text-align: center; font-size: 1.2rem; padding: 40px; }
+        .details-grid {
+            display: grid; grid-template-columns: 1fr; gap: 15px;
+        }
+        @media (min-width: 600px) { .details-grid { grid-template-columns: 1fr 1fr; } }
+        .detail-item {
+            padding: 15px; border-radius: 5px; background-color: #f9f9f9; line-height: 1.8;
+        }
+        .detail-item strong {
+            display: block; color: var(--primary-color); font-size: 1.1rem; margin-bottom: 5px;
+        }
+        .description { grid-column: 1 / -1; }
+        .action-buttons { margin-top: 25px; }
+        .btn { display: inline-block; background: var(--primary-color); color: #fff; padding: 10px 18px; border-radius: 5px; text-decoration: none; font-size: 1rem; transition: background 0.3s ease; border: none; cursor: pointer; }
+        .btn-secondary { background: #6c757d; }
+        .btn-danger { background: #d9534f; }
+    </style>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="sidebar"><h2>ایڈمن پینل</h2>
+            <ul>
+                <li><a href="admin.html"><i class="fa fa-tachometer-alt"></i> ڈیش بورڈ</a></li>
+                <li><a href="students.html"><i class="fa fa-users"></i> طلباء</a></li>
+                <li><a href="teachers.html"><i class="fa fa-chalkboard-teacher"></i> اساتذہ</a></li>
+                <li><a href="courses.html" class="active"><i class="fa fa-book-open"></i> کورسز</a></li>
+                <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
+                <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <header><h1>کورس کی تفصیلات</h1></header>
+            <div id="details-wrapper"><p class="loading-text">تفصیلات لوڈ ہو رہی ہیں...</p></div>
+        </main>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('id');
+            const detailsWrapper = document.getElementById('details-wrapper');
+            if (!courseId) {
+                detailsWrapper.innerHTML = '<p class="loading-text" style="color:red;">کورس کی ID نہیں ملی!</p>';
+                return;
+            }
+            try {
+                // Note: 'getCourseById' function needs to be created in firebase.js
+                const course = await getCourseById(courseId);
+                if (!course) {
+                     detailsWrapper.innerHTML = '<p class="loading-text" style="color:red;">اس ID کے ساتھ کوئی کورس نہیں ملا۔</p>';
+                    return;
+                }
+                detailsWrapper.innerHTML = `
+                    <div class="details-container">
+                        <div class="details-grid">
+                            <div class="detail-item"><strong>کورس کا نام:</strong> <span>${course.name}</span></div>
+                            <div class="detail-item"><strong>شعبہ:</strong> <span>${course.department}</span></div>
+                            <div class="detail-item"><strong>دورانیہ:</strong> <span>${course.duration || 'N/A'}</span></div>
+                             <div class="detail-item description"><strong>تفصیل:</strong> <span>${course.description || 'کوئی تفصیل نہیں دی گئی'}</span></div>
+                        </div>
+                        <div class="action-buttons">
+                            <a href="edit-course.html?id=${course.id}" class="btn">ترمیم کریں</a>
+                             <a href="courses.html" class="btn btn-secondary">واپس جائیں</a>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error("Error fetching course details: ", error);
+                detailsWrapper.innerHTML = '<p class="loading-text" style="color:red;">تفصیلات لوڈ کرنے میں ناکامی!</p>';
+            }
+        });
+    </script>
+</body>
+</html>

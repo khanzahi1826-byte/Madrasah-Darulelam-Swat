@@ -101,3 +101,34 @@ async function updateTeacher(id, updatedData) {
 async function deleteTeacher(id) {
     await db.collection("teachers").doc(id).delete();
 }
+
+
+// ----------------------------------------------------
+// Courses - Course-related helper functions
+// ----------------------------------------------------
+
+async function getCourses() {
+    const snapshot = await db.collection("courses").orderBy("createdAt", "desc").get();
+    const courses = [];
+    snapshot.forEach(doc => {
+        courses.push({ id: doc.id, ...doc.data() });
+    });
+    return courses;
+}
+
+async function getCourseById(id) {
+    const doc = await db.collection("courses").doc(id).get();
+    return doc.exists ? { id: doc.id, ...doc.data() } : null;
+}
+
+async function addCourse(courseData) {
+    return await db.collection("courses").add(courseData);
+}
+
+async function updateCourse(id, updatedData) {
+    return await db.collection("courses").doc(id).update(updatedData);
+}
+
+async function deleteCourse(id) {
+    return await db.collection("courses").doc(id).delete();
+}

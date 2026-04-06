@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کورس میں ترمیم کریں</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
+        :root {
+            --primary-color: #004d40;
+            --secondary-color: #d4af37;
+            --light-color: #f5f5f5;
+            --dark-color: #212121;
+            --font-family: 'Noto Nastaliq Urdu', serif;
+        }
+        html { font-size: 16px; }
+        body {
+            font-family: var(--font-family);
+            direction: rtl;
+            background-color: var(--light-color);
+            margin: 0;
+            font-size: 1rem;
+        }
+        .admin-wrapper { display: flex; min-height: 100vh; }
+        .sidebar {
+            width: 240px; background: var(--primary-color); color: #fff; padding: 20px;
+        }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.5rem; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar ul li a {
+            display: block; color: #fff; text-decoration: none; padding: 12px 15px; font-size: 1.1rem; border-radius: 5px; transition: background 0.3s ease;
+        }
+        .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--secondary-color); }
+        .sidebar ul li a .fa { margin-left: 10px; }
+        .main-content { flex: 1; padding: 20px; }
+        header { 
+            display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px;
+        }
+        header h1 { margin: 0; font-size: 1.8rem; }
+        .form-container { background: #fff; padding: 30px; border-radius: 8px; }
+        .loading-text { text-align: center; font-size: 1.2rem; padding: 40px; }
+        .form-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+        @media (min-width: 768px) { .form-grid { grid-template-columns: 1fr 1fr; } }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; }
+        .form-group input, .form-group select, .form-group textarea { 
+            width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd; font-family: inherit; font-size: 1rem; box-sizing: border-box; 
+        }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        .form-actions { margin-top: 25px; grid-column: 1 / -1; }
+        .btn { display: inline-block; background: var(--primary-color); color: #fff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-size: 1.05rem; border: none; cursor: pointer; }
+        .btn-secondary { background: #6c757d; margin-left: 10px; }
+    </style>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="sidebar"><h2>ایڈمن پینل</h2>
+            <ul>
+                <li><a href="admin.html"><i class="fa fa-tachometer-alt"></i> ڈیش بورڈ</a></li>
+                <li><a href="students.html"><i class="fa fa-users"></i> طلباء</a></li>
+                <li><a href="teachers.html"><i class="fa fa-chalkboard-teacher"></i> اساتذہ</a></li>
+                <li><a href="courses.html" class="active"><i class="fa fa-book-open"></i> کورسز</a></li>
+                <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
+                <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <header><h1>کورس میں ترمیم کریں</h1></header>
+            <div id="form-wrapper"><p class="loading-text">فارم لوڈ ہو رہا ہے...</p></div>
+        </main>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="firebase.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const courseId = urlParams.get('id');
+            const formWrapper = document.getElementById('form-wrapper');
+            if (!courseId) {
+                formWrapper.innerHTML = '<p class="loading-text" style="color: red;">کورس کی ID نہیں ملی!</p>';
+                return;
+            }
+            try {
+                // Note: 'getCourseById' function needs to be created in firebase.js
+                const course = await getCourseById(courseId);
+                if (!course) {
+                    formWrapper.innerHTML = '<p class="loading-text" style="color: red;">اس ID کے ساتھ کوئی کورس نہیں ملا۔</p>';
+                    return;
+                }
+                formWrapper.innerHTML = `
+                    <div class="form-container">
+                        <form id="edit-course-form">
+                             <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="courseName">کورس کا نام</label>
+                                    <input type="text" id="courseName" value="${course.name}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="department">شعبہ</label>
+                                    <select id="department" required>
+                                        <option value="شعبہ مکتب" ${course.department === 'شعبہ مکتب' ? 'selected' : ''}>شعبہ مکتب (قاعدہ/ناظرہ)</option>
+                                        <option value="شعبہ حفظ" ${course.department === 'شعبہ حفظ' ? 'selected' : ''}>شعبہ حفظ</option>
+                                        <option value="شعبہ تجوید" ${course.department === 'شعبہ تجوید' ? 'selected' : ''}>شعبہ تجوید</option>
+                                        <option value="شعبہ درس نظامی" ${course.department === 'شعبہ درس نظامی' ? 'selected' : ''}>شعبہ درس نظامی</option>
+                                        <option value="دیگر" ${course.department === 'دیگر' ? 'selected' : ''}>دیگر</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="duration">دورانیہ</label>
+                                    <input type="text" id="duration" value="${course.duration || ''}">
+                                </div>
+                                <div class="form-group" style="grid-column: 1 / -1;">
+                                    <label for="description">تفصیل</label>
+                                    <textarea id="description">${course.description || ''}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn">تبدیلیاں محفوظ کریں</button>
+                                <a href="courses.html" class="btn btn-secondary">منسوخ کریں</a>
+                            </div>
+                        </form>
+                    </div>
+                `;
+                const editForm = document.getElementById('edit-course-form');
+                editForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    const updatedData = {
+                        name: document.getElementById('courseName').value,
+                        department: document.getElementById('department').value,
+                        duration: document.getElementById('duration').value,
+                        description: document.getElementById('description').value,
+                    };
+                    try {
+                        // Note: 'updateCourse' function needs to be created in firebase.js
+                        await updateCourse(courseId, updatedData);
+                        alert('کورس کی معلومات کامیابی سے اپ ڈیٹ ہو گئی ہیں۔');
+                        window.location.href = 'courses.html';
+                    } catch (error) {
+                        console.error("Error updating course: ", error);
+                        alert('کورس اپ ڈیٹ کرنے میں ناکامی!');
+                    }
+                });
+            } catch (error) {
+                console.error("Error loading course: ", error);
+                formWrapper.innerHTML = '<p class="loading-text" style="color: red;">ڈیٹا لوڈ کرنے میں ناکامی!</p>';
+            }
+        });
+    </script>
+</body>
+</html>
