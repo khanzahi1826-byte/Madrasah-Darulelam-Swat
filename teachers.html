@@ -111,13 +111,12 @@
                         <th>ID</th>
                         <th>نام</th>
                         <th>عہدہ</th>
-                        <th>شعبہ</th>
                         <th>کاروائیاں</th>
                     </tr>
                 </thead>
                 <tbody id="teachers-list">
                     <tr class="loading-row">
-                        <td colspan="5" class="loading">ڈیٹا لوڈ ہو رہا ہے...</td>
+                        <td colspan="4" class="loading">ڈیٹا لوڈ ہو رہا ہے...</td>
                     </tr>
                 </tbody>
             </table>
@@ -140,7 +139,7 @@
             function renderTable(teachers) {
                 teachersList.innerHTML = '';
                 if (teachers.length === 0) {
-                    teachersList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">کوئی استاد نہیں ملا۔</td></tr>`;
+                    teachersList.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px;">کوئی استاد نہیں ملا۔</td></tr>`;
                 } else {
                     teachers.forEach(teacher => {
                         const row = document.createElement('tr');
@@ -149,7 +148,6 @@
                             <td>${teacher.teacherId}</td>
                             <td>${teacher.name}</td>
                             <td>${teacher.designation}</td>
-                            <td>${teacher.department}</td>
                             <td class="actions">
                                 <a href="teacher-details.html?id=${teacher.id}" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
                                 <a href="edit-teacher.html?id=${teacher.id}" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
@@ -182,7 +180,7 @@
                     renderTable(allTeachers);
                 } catch (error) {
                     console.error("Firebase سے ڈیٹا لاتے ہوئے خرابی: ", error);
-                    teachersList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: red;">ڈیٹا لوڈ کرنے میں ناکامی!</td></tr>`;
+                    teachersList.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px; color: red;">ڈیٹا لوڈ کرنے میں ناکامی!</td></tr>`;
                 }
             }
 

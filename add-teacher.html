@@ -110,15 +110,6 @@
                             <label for="designation">عہدہ</label>
                             <input type="text" id="designation" required>
                         </div>
-                        <div class="form-group">
-                            <label for="department">شعبہ</label>
-                            <select id="department" required>
-                                <option value="حفظ القرآن">حفظ القرآن</option>
-                                <option value="درس نظامی">درس نظامی</option>
-                                <option value="تخصص فی الفقہ">تخصص فی الفقہ</option>
-                                <option value="تخصص فی الحدیث">تخصص فی الحدیث</option>
-                            </select>
-                        </div>
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="btn">استاد شامل کریں</button>
@@ -148,7 +139,6 @@
                 permanentAddress: document.getElementById('permanentAddress').value,
                 temporaryAddress: document.getElementById('temporaryAddress').value,
                 designation: document.getElementById('designation').value,
-                department: document.getElementById('department').value,
                 joiningDate: new Date().toISOString().split('T')[0], // آج کی تاریخ
             };
 
