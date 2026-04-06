@@ -71,7 +71,6 @@
             <ul>
                 <li><a href="admin.html"><i class="fa fa-tachometer-alt"></i> ڈیش بورڈ</a></li>
                 <li><a href="students.html" class="active"><i class="fa fa-users"></i> طلباء</a></li>
-                <li><a href="teachers.html"><i class="fa fa-chalkboard-teacher"></i> اساتذہ</a></li>
                 <li><a href="#"><i class="fa fa-book-open"></i> کورسز</a></li>
                 <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
                 <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
@@ -117,7 +116,7 @@
                         <form id="edit-student-form">
                             <div class="form-group">
                                 <label>رول نمبر</label>
-                                <input type="text" value="${student.rollNumber || student.id}" disabled>
+                                <input type="text" value="${student.rollNumber}" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="name">نام</label>
@@ -136,7 +135,16 @@
                                 <input type="text" id="address" value="${student.address}" required>
                             </div>
                             <div class="form-group">
-                                <label for="phone">فون نمبر</label>
+        <aside class="sidebar">
+            <h2>ایڈمن پینل</h2>
+            <ul>
+                <li><a href="admin.html"><i class="fa fa-tachometer-alt"></i> ڈیش بورڈ</a></li>
+                <li><a href="students.html" class="active"><i class="fa fa-users"></i> طلباء</a></li>
+                <li><a href="#"><i class="fa fa-book-open"></i> کورسز</a></li>
+                <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
+                <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
+            </ul>
+        </aside>                        <label for="phone">فون نمبر</label>
                                 <input type="tel" id="phone" value="${student.phone}" required>
                             </div>
                             <div class="form-group">
