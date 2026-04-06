@@ -80,12 +80,21 @@ async function getTeacherById(id) {
 }
 
 async function addTeacher(teacherData) {
-    const docRef = await db.collection("teachers").add(teacherData);
-    return docRef.id;
+    const counterRef = db.collection('counters').doc('teachers');
+    const newTeacherIdNum = await db.runTransaction(async (transaction) => {
+        const counterDoc = await transaction.get(counterRef);
+        let nextId = counterDoc.exists ? counterDoc.data().current + 1 : 1;
+        transaction.set(counterRef, { current: nextId });
+        return nextId;
+    });
+    const teacherId = String(newTeacherIdNum);
+    await db.collection("teachers").doc(teacherId).set({ ...teacherData, teacherId: newTeacherIdNum });
+    return teacherId;
 }
 
 async function updateTeacher(id, updatedData) {
-    await db.collection("teachers").doc(id).update(updatedData);
+    const { teacherId, ...data } = updatedData;
+    await db.collection("teachers").doc(id).update(data);
 }
 
 async function deleteTeacher(id) {

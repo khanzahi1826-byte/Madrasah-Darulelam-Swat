@@ -146,13 +146,13 @@
                         const row = document.createElement('tr');
                         row.setAttribute('data-id', teacher.id);
                         row.innerHTML = `
-                            <td>${teacher.id.substring(0, 6).toUpperCase()}</td>
+                            <td>${teacher.teacherId}</td>
                             <td>${teacher.name}</td>
                             <td>${teacher.designation}</td>
                             <td>${teacher.department}</td>
                             <td class="actions">
-                                <a href="#" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
-                                <a href="#" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
+                                <a href="teacher-details.html?id=${teacher.id}" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
+                                <a href="edit-teacher.html?id=${teacher.id}" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
                                 <a href="#" class="delete-btn" title="حذف کریں"><i class="fa fa-trash"></i></a>
                             </td>
                         `;
@@ -168,7 +168,7 @@
                     return;
                 }
                 const filteredTeachers = allTeachers.filter(teacher => {
-                    const teacherId = teacher.id.toLowerCase();
+                    const teacherId = String(teacher.teacherId).toLowerCase();
                     const teacherName = teacher.name ? teacher.name.toLowerCase() : '';
                     const designation = teacher.designation ? teacher.designation.toLowerCase() : '';
                     return teacherName.includes(query) || designation.includes(query) || teacherId.includes(query);

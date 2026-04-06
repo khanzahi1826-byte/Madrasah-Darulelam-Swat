@@ -41,17 +41,18 @@
         .form-container {
             background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .form-group label {
-            display: block; margin-bottom: 8px; font-weight: bold; font-size: 1.1rem;
+            display: block; margin-bottom: 8px; font-weight: bold; font-size: 1.05rem;
         }
         .form-group input, .form-group select {
             width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd; font-family: inherit; font-size: 1rem; box-sizing: border-box;
         }
         .form-actions {
-            margin-top: 25px;
+            margin-top: 25px; grid-column: 1 / -1; 
         }
         .btn {
             display: inline-block; background: var(--primary-color); color: #fff; padding: 12px 25px; border-radius: 5px; text-decoration: none; font-size: 1.05rem; transition: background 0.3s ease; border: none; cursor: pointer; font-family: 'Noto Nastaliq Urdu', sans-serif;
@@ -59,8 +60,6 @@
         .btn-secondary {
             background: #6c757d; margin-left: 10px;
         }
-        .btn:hover { background: #00382e; }
-        .btn-secondary:hover { background: #5a6268; }
     </style>
 </head>
 <body>
@@ -82,31 +81,44 @@
             </header>
             <div class="form-container">
                 <form id="add-teacher-form">
-                    <div class="form-group">
-                        <label for="name">نام</label>
-                        <input type="text" id="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="designation">عہدہ</label>
-                        <input type="text" id="designation" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="department">شعبہ</label>
-                        <select id="department" required>
-                            <option value="حفظ القرآن">حفظ القرآن</option>
-                            <option value="درس نظامی">درس نظامی</option>
-                            <option value="تخصص فی الفقہ">تخصص فی الفقہ</option>
-                            <option value="تخصص فی الحدیث">تخصص فی الحدیث</option>
-                            <option value="دیگر">دیگر</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">فون نمبر</label>
-                        <input type="tel" id="phone" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="address">پتہ</label>
-                        <input type="text" id="address" required>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="name">نام</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fatherName">والد کا نام</label>
+                            <input type="text" id="fatherName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cnic">شناختی کارڈ نمبر</label>
+                            <input type="text" id="cnic">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">فون نمبر</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="permanentAddress">مستقل پتہ</label>
+                            <input type="text" id="permanentAddress" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="temporaryAddress">عارضی پتہ</label>
+                            <input type="text" id="temporaryAddress">
+                        </div>
+                        <div class="form-group">
+                            <label for="designation">عہدہ</label>
+                            <input type="text" id="designation" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="department">شعبہ</label>
+                            <select id="department" required>
+                                <option value="حفظ القرآن">حفظ القرآن</option>
+                                <option value="درس نظامی">درس نظامی</option>
+                                <option value="تخصص فی الفقہ">تخصص فی الفقہ</option>
+                                <option value="تخصص فی الحدیث">تخصص فی الحدیث</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="btn">استاد شامل کریں</button>
@@ -130,22 +142,25 @@
 
             const teacherData = {
                 name: document.getElementById('name').value,
+                fatherName: document.getElementById('fatherName').value,
+                cnic: document.getElementById('cnic').value,
+                phone: document.getElementById('phone').value,
+                permanentAddress: document.getElementById('permanentAddress').value,
+                temporaryAddress: document.getElementById('temporaryAddress').value,
                 designation: document.getElementById('designation').value,
                 department: document.getElementById('department').value,
-                phone: document.getElementById('phone').value,
-                address: document.getElementById('address').value,
+                joiningDate: new Date().toISOString().split('T')[0], // آج کی تاریخ
             };
 
             try {
-                await addTeacher(teacherData);
+                await addTeacher(teacherData); 
                 alert('استاد کو کامیابی سے شامل کر دیا گیا ہے!');
                 window.location.href = 'teachers.html';
             } catch (error) {
                 console.error("استاد کو شامل کرتے وقت خرابی: ", error);
-                alert('استاد کو شامل کرنے میں ناکامی!');
+                alert('استاد کو شامل کرنے میں ناکامی! براہ کرم دوبارہ کوشش کریں۔');
             }
         });
     </script>
-
 </body>
 </html>
