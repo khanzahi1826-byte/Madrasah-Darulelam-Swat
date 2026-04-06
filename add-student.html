@@ -120,10 +120,6 @@
                                 <option value="تخصص فی الحدیث">تخصص فی الحدیث</option>
                             </select>
                         </div>
-                         <div class="form-group">
-                            <label for="admissionDate">تاریخ داخلہ</label>
-                            <input type="date" id="admissionDate" required>
-                        </div>
                         <div class="form-group">
                             <label for="registrationFee">رجسٹریشن فیس</label>
                             <input type="number" id="registrationFee">
@@ -158,7 +154,7 @@
                 permanentAddress: document.getElementById('permanentAddress').value,
                 temporaryAddress: document.getElementById('temporaryAddress').value,
                 department: document.getElementById('department').value,
-                admissionDate: document.getElementById('admissionDate').value,
+                admissionDate: new Date().toISOString().split('T')[0], // آج کی تاریخ
                 registrationFee: document.getElementById('registrationFee').value,
             };
 
