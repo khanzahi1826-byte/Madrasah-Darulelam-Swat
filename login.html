@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ایڈمن لاگ ان - مدرسہ دارالعلم سوات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
     :root {
@@ -49,7 +50,9 @@
         border-radius: 5px;
         font-family: inherit;
         font-size: 1.1rem;
-        direction: rtl;
+        box-sizing: border-box;
+        direction: ltr; /* Email and password fields are better LTR */
+        text-align: right;
     }
     .btn {
         display: inline-block;
@@ -71,7 +74,7 @@
     #error-message {
         color: #d93025;
         margin-top: 15px;
-        display: none;
+        display: none; /* Hidden by default */
     }
     </style>
 </head>
@@ -80,28 +83,49 @@
         <h1>ایڈمن لاگ ان</h1>
         <p>براہ کرم اپنے اسناد درج کریں۔</p>
         <form id="login-form" class="login-form">
-            <input type="text" id="username" placeholder="یوزر نیم" required>
+            <input type="email" id="email" placeholder="ای میل" required>
             <input type="password" id="password" placeholder="پاس ورڈ" required>
             <button type="submit" class="btn">لاگ ان کریں</button>
         </form>
-        <p id="error-message">یوزر نیم یا پاس ورڈ غلط ہے۔</p>
+        <p id="error-message"></p> <!-- Error message will be set by JS -->
     </div>
 
-    <script>
-        document.getElementById('login-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('error-message');
+    <!-- Firebase Libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-            // ابھی کے لیے، ہم یوزر نیم اور پاس ورڈ کو یہیں کوڈ میں رکھ رہے ہیں۔
-            // مستقبل میں اسے محفوظ طریقے سے سرور پر رکھا جائے گا۔
-            if (username === 'admin' && password === 'password123') {
-                // کامیاب لاگ ان پر، ایڈمن صفحے پر بھیج دیں۔
-                window.location.href = 'admin.html';
-            } else {
-                errorMessage.style.display = 'block';
-            }
+    <!-- Firebase Config -->
+    <script src="firebase.js"></script>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const errorMessage = document.getElementById('error-message');
+
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            
+            errorMessage.style.display = 'none'; // Hide error on new attempt
+
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Signed in 
+                    window.location.href = 'admin.html';
+                })
+                .catch((error) => {
+                    let message = "لاگ ان کے دوران خرابی پیش آئی۔";
+                    if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+                        message = "ای میل یا پاس ورڈ غلط ہے۔";
+                    } else if (error.code === 'auth/invalid-email') {
+                        message = "ای میل کا فارمیٹ غلط ہے۔";
+                    }
+                    errorMessage.textContent = message;
+                    errorMessage.style.display = 'block';
+                    console.error("Login Error:", error);
+                });
         });
     </script>
 </body>
