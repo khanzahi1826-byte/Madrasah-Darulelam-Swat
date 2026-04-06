@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اساتذہ کا مینجمنٹ - ایڈمن پینل</title>
+    <title>اساتذہ - ایڈمن پینل</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
@@ -35,14 +35,29 @@
         .sidebar ul li a .fa { margin-left: 10px; }
         .main-content { flex: 1; padding: 20px; }
         header {
-            display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
         }
         header h1 { margin: 0; font-size: 1.8rem; }
         .btn {
-            display: inline-block; background: var(--primary-color); color: #fff; padding: 10px 18px; border-radius: 5px; text-decoration: none; font-size: 1rem; transition: background 0.3s ease; border: none; cursor: pointer; font-family: 'Noto Nastaliq Urdu', sans-serif;
+            display: inline-block;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Noto Nastaliq Urdu', sans-serif;
         }
-        .btn:hover { background: #00382e; }
-        
         .search-container {
             margin-bottom: 20px;
         }
@@ -53,29 +68,34 @@
             border: 1px solid #ddd;
             font-family: var(--font-family);
             font-size: 1rem;
-            box-sizing: border-box;
-            background-color: #fff;
+            box-sizing: border-box; /* Important for preventing overflow */
         }
-
         .teachers-table {
-            width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .teachers-table th, .teachers-table td {
-            padding: 12px 15px; text-align: right; border-bottom: 1px solid #eee;
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid #eee;
         }
         .teachers-table th {
-            background: var(--primary-color); color: white; font-size: 1.1rem;
-        }
-        .teachers-table td { font-size: 1rem; }
-        .teachers-table tr:last-child td { border-bottom: none; }
-        .teachers-table tr:hover {
-            background-color: #f9f9f9;
+            background: var(--primary-color);
+            color: white;
+            font-size: 1.1rem;
         }
         .teachers-table .actions a {
-            color: var(--primary-color); margin-left: 12px; font-size: 1.1rem; text-decoration: none; cursor: pointer;
+            color: var(--primary-color);
+            margin-left: 12px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            cursor: pointer;
         }
-        .teachers-table .actions a:hover { color: var(--secondary-color); }
-        .loading {
+        .loading-text {
             text-align: center;
             padding: 40px;
             font-size: 1.2rem;
@@ -90,7 +110,7 @@
                 <li><a href="admin.html"><i class="fa fa-tachometer-alt"></i> ڈیش بورڈ</a></li>
                 <li><a href="students.html"><i class="fa fa-users"></i> طلباء</a></li>
                 <li><a href="teachers.html" class="active"><i class="fa fa-chalkboard-teacher"></i> اساتذہ</a></li>
-                <li><a href="#"><i class="fa fa-book-open"></i> کورسز</a></li>
+                <li><a href="courses.html"><i class="fa fa-book-open"></i> کورسز</a></li>
                 <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
                 <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
             </ul>
@@ -100,34 +120,34 @@
                 <h1>اساتذہ کا مینجمنٹ</h1>
                 <a href="add-teacher.html" class="btn"><i class="fa fa-plus"></i> نیا استاد شامل کریں</a>
             </header>
-            
+
             <div class="search-container">
-                <input type="text" id="searchInput" placeholder="استاد کو نام، عہدے، یا ID سے تلاش کریں...">
+                <input type="text" id="searchInput" placeholder="استاد کو نام، شناختی کارڈ نمبر، یا فون سے تلاش کریں...">
             </div>
 
             <table class="teachers-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>استاد ID</th>
                         <th>نام</th>
-                        <th>عہدہ</th>
+                        <th>فون نمبر</th>
                         <th>کاروائیاں</th>
                     </tr>
                 </thead>
                 <tbody id="teachers-list">
-                    <tr class="loading-row">
-                        <td colspan="4" class="loading">ڈیٹا لوڈ ہو رہا ہے...</td>
+                     <tr>
+                        <td colspan="4" class="loading-text">ڈیٹا لوڈ ہو رہا ہے، براہ کرم انتظار کریں...</td>
                     </tr>
                 </tbody>
             </table>
         </main>
     </div>
 
-    <!-- Firebase کی لائبریریاں -->
+    <!-- Firebase Libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    <!-- Firebase کی کنفیگریشن فائل -->
+    <!-- Firebase Config -->
     <script src="firebase.js"></script>
 
     <script>
@@ -136,78 +156,66 @@
             const searchInput = document.getElementById('searchInput');
             let allTeachers = [];
 
-            function renderTable(teachers) {
+            try {
+                allTeachers = await getTeachers();
+                renderTeachers(allTeachers);
+            } catch (error) {
+                console.error("Error fetching teachers: ", error);
+                teachersList.innerHTML = '<tr><td colspan="4" class="loading-text" style="color:red;">ڈیٹا لوڈ کرنے میں ناکامی!</td></tr>';
+            }
+
+            function renderTeachers(teachers) {
                 teachersList.innerHTML = '';
                 if (teachers.length === 0) {
-                    teachersList.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px;">کوئی استاد نہیں ملا۔</td></tr>`;
-                } else {
-                    teachers.forEach(teacher => {
-                        const row = document.createElement('tr');
-                        row.setAttribute('data-id', teacher.id);
-                        row.innerHTML = `
-                            <td>${teacher.teacherId}</td>
-                            <td>${teacher.name}</td>
-                            <td>${teacher.designation}</td>
-                            <td class="actions">
-                                <a href="teacher-details.html?id=${teacher.id}" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
-                                <a href="edit-teacher.html?id=${teacher.id}" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
-                                <a href="#" class="delete-btn" title="حذف کریں"><i class="fa fa-trash"></i></a>
-                            </td>
-                        `;
-                        teachersList.appendChild(row);
-                    });
-                }
-            }
-
-            function handleSearch() {
-                const query = searchInput.value.toLowerCase().trim();
-                if (!query) {
-                    renderTable(allTeachers);
+                    teachersList.innerHTML = '<tr><td colspan="4" class="loading-text">کوئی استاد موجود نہیں ہے۔</td></tr>';
                     return;
                 }
-                const filteredTeachers = allTeachers.filter(teacher => {
-                    const teacherId = String(teacher.teacherId).toLowerCase();
-                    const teacherName = teacher.name ? teacher.name.toLowerCase() : '';
-                    const designation = teacher.designation ? teacher.designation.toLowerCase() : '';
-                    return teacherName.includes(query) || designation.includes(query) || teacherId.includes(query);
+
+                teachers.forEach(teacher => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${teacher.teacherId}</td>
+                        <td>${teacher.name}</td>
+                        <td>${teacher.phone}</td>
+                        <td class="actions">
+                            <a href="teacher-details.html?id=${teacher.id}" title="تفصیلات"><i class="fa fa-eye"></i></a>
+                            <a href="edit-teacher.html?id=${teacher.id}" title="ترمیم"><i class="fa fa-edit"></i></a>
+                            <a href="#" class="delete-btn" data-id="${teacher.id}" title="حذف"><i class="fa fa-trash"></i></a>
+                        </td>
+                    `;
+                    teachersList.appendChild(row);
                 });
-                renderTable(filteredTeachers);
             }
+            
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase();
+                const filteredTeachers = allTeachers.filter(teacher => 
+                    String(teacher.teacherId).includes(query) ||
+                    teacher.name.toLowerCase().includes(query) || 
+                    teacher.phone.includes(query)
+                );
+                renderTeachers(filteredTeachers);
+            });
 
-            async function loadInitialData() {
-                try {
-                    allTeachers = await getTeachers();
-                    renderTable(allTeachers);
-                } catch (error) {
-                    console.error("Firebase سے ڈیٹا لاتے ہوئے خرابی: ", error);
-                    teachersList.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px; color: red;">ڈیٹا لوڈ کرنے میں ناکامی!</td></tr>`;
-                }
-            }
-
-            async function handleTableClick(e) {
-                const deleteBtn = e.target.closest('.delete-btn');
-                if (deleteBtn) {
+            teachersList.addEventListener('click', async (e) => {
+                if (e.target.closest('.delete-btn')) {
                     e.preventDefault();
-                    const row = deleteBtn.closest('tr');
-                    const teacherId = row.getAttribute('data-id');
-                    if (confirm('کیا آپ واقعی اس استاد کا ریکارڈ حذف کرنا چاہتے ہیں؟')) {
+                    const teacherId = e.target.closest('.delete-btn').dataset.id;
+                    if (confirm('کیا آپ واقعی اس استاد کو حذف کرنا چاہتے ہیں؟')) {
                         try {
                             await deleteTeacher(teacherId);
-                            alert('استاد کا ریکارڈ کامیابی سے حذف کر دیا گیا ہے۔');
-                            await loadInitialData(); 
+                            alert('استاد کامیابی سے حذف ہو گیا ہے۔');
+                            allTeachers = allTeachers.filter(t => t.id !== teacherId);
+                            renderTeachers(allTeachers);
                         } catch (error) {
-                            console.error("ریکارڈ حذف کرتے ہوئے خرابی: ", error);
-                            alert('ریکارڈ حذف کرنے میں ناکامی!');
+                            console.error('Error deleting teacher: ', error);
+                            alert('استاد حذف کرنے میں ناکامی!');
                         }
                     }
                 }
-            }
-
-            searchInput.addEventListener('input', handleSearch);
-            teachersList.addEventListener('click', handleTableClick);
-
-            await loadInitialData();
+            });
         });
     </script>
+
 </body>
 </html>

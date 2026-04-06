@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طلباء کا مینجمنٹ - ایڈمن پینل</title>
+    <title>طلباء - ایڈمن پینل</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
@@ -35,14 +35,29 @@
         .sidebar ul li a .fa { margin-left: 10px; }
         .main-content { flex: 1; padding: 20px; }
         header {
-            display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
         }
         header h1 { margin: 0; font-size: 1.8rem; }
         .btn {
-            display: inline-block; background: var(--primary-color); color: #fff; padding: 10px 18px; border-radius: 5px; text-decoration: none; font-size: 1rem; transition: background 0.3s ease; border: none; cursor: pointer; font-family: 'Noto Nastaliq Urdu', sans-serif;
+            display: inline-block;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-family: 'Noto Nastaliq Urdu', sans-serif;
         }
-        .btn:hover { background: #00382e; }
-        
         .search-container {
             margin-bottom: 20px;
         }
@@ -53,29 +68,34 @@
             border: 1px solid #ddd;
             font-family: var(--font-family);
             font-size: 1rem;
-            box-sizing: border-box;
-            background-color: #fff;
+            box-sizing: border-box; /* Important for preventing overflow */
         }
-
         .students-table {
-            width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .students-table th, .students-table td {
-            padding: 12px 15px; text-align: right; border-bottom: 1px solid #eee;
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid #eee;
         }
         .students-table th {
-            background: var(--primary-color); color: white; font-size: 1.1rem;
-        }
-        .students-table td { font-size: 1rem; }
-        .students-table tr:last-child td { border-bottom: none; }
-        .students-table tr:hover {
-            background-color: #f9f9f9;
+            background: var(--primary-color);
+            color: white;
+            font-size: 1.1rem;
         }
         .students-table .actions a {
-            color: var(--primary-color); margin-left: 12px; font-size: 1.1rem; text-decoration: none; cursor: pointer;
+            color: var(--primary-color);
+            margin-left: 12px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            cursor: pointer;
         }
-        .students-table .actions a:hover { color: var(--secondary-color); }
-        .loading {
+        .loading-text {
             text-align: center;
             padding: 40px;
             font-size: 1.2rem;
@@ -89,7 +109,8 @@
             <ul>
                 <li><a href="admin.html"><i class="fa fa-tachometer-alt"></i> ڈیش بورڈ</a></li>
                 <li><a href="students.html" class="active"><i class="fa fa-users"></i> طلباء</a></li>
-                <li><a href="#"><i class="fa fa-book-open"></i> کورسز</a></li>
+                <li><a href="teachers.html"><i class="fa fa-chalkboard-teacher"></i> اساتذہ</a></li>
+                <li><a href="courses.html"><i class="fa fa-book-open"></i> کورسز</a></li>
                 <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
                 <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
             </ul>
@@ -97,9 +118,9 @@
         <main class="main-content">
             <header>
                 <h1>طلباء کا مینجمنٹ</h1>
-                <a href="add-student.html" class="btn"><i class="fa fa-plus"></i> نیا طالب علم</a>
+                <a href="add-student.html" class="btn"><i class="fa fa-plus"></i> نیا طالب علم شامل کریں</a>
             </header>
-            
+
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="طالب علم کو نام، والد کے نام، یا رول نمبر سے تلاش کریں...">
             </div>
@@ -115,115 +136,90 @@
                     </tr>
                 </thead>
                 <tbody id="students-list">
-                    <tr class="loading-row">
-                        <td colspan="5" class="loading">ڈیٹا لوڈ ہو رہا ہے...</td>
+                     <tr>
+                        <td colspan="5" class="loading-text">ڈیٹا لوڈ ہو رہا ہے، براہ کرم انتظار کریں...</td>
                     </tr>
                 </tbody>
             </table>
         </main>
     </div>
 
-    <!-- Firebase کی لائبریریاں -->
+    <!-- Firebase Libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    <!-- Firebase کی کنفیگریشن فائل -->
+    <!-- Firebase Config -->
     <script src="firebase.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
             const studentsList = document.getElementById('students-list');
             const searchInput = document.getElementById('searchInput');
-            let allStudents = []; // تمام طلباء کو یہاں محفوظ کریں گے
+            let allStudents = [];
 
-            // یہ فنکشن طلباء کی فہرست کو ٹیبل میں دکھاتا ہے
-            function renderTable(students) {
-                studentsList.innerHTML = ''; // پرانی فہرست صاف کریں
-
-                if (students.length === 0) {
-                    studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px;">اس تلاش کے مطابق کوئی طالب علم نہیں ملا۔</td></tr>`;
-                } else {
-                    students.sort((a, b) => (a.rollNumber || 0) - (b.rollNumber || 0)).forEach(student => {
-                        const row = document.createElement('tr');
-                        row.setAttribute('data-id', student.id);
-                        row.innerHTML = `
-                            <td>${student.rollNumber}</td>
-                            <td>${student.name}</td>
-                            <td>${student.fatherName}</td>
-                            <td>${student.department}</td>
-                            <td class="actions">
-                                <a href="student-details.html?id=${student.id}" class="view-btn" title="تفصیلات دیکھیں"><i class="fa fa-eye"></i></a>
-                                <a href="edit-student.html?id=${student.id}" class="edit-btn" title="ترمیم کریں"><i class="fa fa-edit"></i></a>
-                                <a href="#" class="delete-btn" title="حذف کریں"><i class="fa fa-trash"></i></a>
-                            </td>
-                        `;
-                        studentsList.appendChild(row);
-                    });
-                }
+            try {
+                allStudents = await getStudents();
+                renderStudents(allStudents);
+            } catch (error) {
+                console.error("Error fetching students: ", error);
+                studentsList.innerHTML = '<tr><td colspan="5" class="loading-text" style="color:red;">ڈیٹا لوڈ کرنے میں ناکامی! براہ کرم کنسول چیک کریں۔</td></tr>';
             }
 
-            // یہ فنکشن سرچ بار میں لکھنے پر کام کرتا ہے
-            function handleSearch() {
-                const query = searchInput.value.toLowerCase().trim();
-                
-                if (!query) {
-                    renderTable(allStudents); // اگر سرچ خالی ہے تو سب کو دکھائیں
+            function renderStudents(students) {
+                studentsList.innerHTML = '';
+                if (students.length === 0) {
+                    studentsList.innerHTML = '<tr><td colspan="5" class="loading-text">کوئی طالب علم موجود نہیں ہے۔</td></tr>';
                     return;
                 }
 
-                const filteredStudents = allStudents.filter(student => {
-                    const rollNumber = String(student.rollNumber || '');
-                    const studentName = student.name ? student.name.toLowerCase() : '';
-                    const fatherName = student.fatherName ? student.fatherName.toLowerCase() : '';
-                    
-                    return studentName.includes(query) || 
-                           fatherName.includes(query) || 
-                           rollNumber.includes(query);
+                students.forEach(student => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${student.rollNumber}</td>
+                        <td>${student.name}</td>
+                        <td>${student.fatherName}</td>
+                        <td>${student.department}</td>
+                        <td class="actions">
+                            <a href="student-details.html?id=${student.id}" title="تفصیلات"><i class="fa fa-eye"></i></a>
+                            <a href="edit-student.html?id=${student.id}" title="ترمیم"><i class="fa fa-edit"></i></a>
+                            <a href="#" class="delete-btn" data-id="${student.id}" title="حذف"><i class="fa fa-trash"></i></a>
+                        </td>
+                    `;
+                    studentsList.appendChild(row);
                 });
-
-                renderTable(filteredStudents);
             }
+            
+            searchInput.addEventListener('input', () => {
+                const query = searchInput.value.toLowerCase();
+                const filteredStudents = allStudents.filter(student => 
+                    String(student.rollNumber).includes(query) ||
+                    student.name.toLowerCase().includes(query) || 
+                    student.fatherName.toLowerCase().includes(query)
+                );
+                renderStudents(filteredStudents);
+            });
 
-            // ابتدائی ڈیٹا لوڈ کرنے کا فنکشن
-            async function loadInitialData() {
-                try {
-                    allStudents = await getStudents(); // firebase.js سے
-                    renderTable(allStudents);
-                } catch (error) {
-                    console.error("Firebase سے ڈیٹا لاتے ہوئے خرابی: ", error);
-                    studentsList.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 20px; color: red;">ڈیٹا لوڈ کرنے میں ناکامی! براہ کرم کنسول چیک کریں۔</td></tr>`;
-                }
-            }
-
-            // حذف کرنے والے بٹن کا فنکشن
-            async function handleTableClick(e) {
-                const deleteBtn = e.target.closest('.delete-btn');
-                if (deleteBtn) {
+            // Event delegation for delete buttons
+            studentsList.addEventListener('click', async (e) => {
+                if (e.target.closest('.delete-btn')) {
                     e.preventDefault();
-                    const row = deleteBtn.closest('tr');
-                    const studentId = row.getAttribute('data-id');
-
-                    if (confirm('کیا آپ واقعی اس طالب علم کا ریکارڈ حذف کرنا چاہتے ہیں؟')) {
+                    const studentId = e.target.closest('.delete-btn').dataset.id;
+                    if (confirm('کیا آپ واقعی اس طالب علم کو حذف کرنا چاہتے ہیں؟')) {
                         try {
-                            await deleteStudent(studentId); // firebase.js سے
-                            alert('طالب علم کا ریکارڈ کامیابی سے حذف کر دیا گیا ہے۔');
-                            // حذف کرنے کے بعد تازہ ترین ڈیٹا دوبارہ لوڈ کریں
-                            await loadInitialData(); 
+                            await deleteStudent(studentId);
+                            alert('طالب علم کامیابی سے حذف ہو گیا ہے۔');
+                            // Refresh the list
+                            allStudents = allStudents.filter(s => s.id !== studentId);
+                            renderStudents(allStudents);
                         } catch (error) {
-                            console.error("ریکارڈ حذف کرتے ہوئے خرابی: ", error);
-                            alert('ریکارڈ حذف کرنے میں ناکامی!');
+                            console.error('Error deleting student: ', error);
+                            alert('طالب علم حذف کرنے میں ناکامی!');
                         }
                     }
                 }
-            }
-
-            // ایونٹ لسنرز کو جوڑیں
-            searchInput.addEventListener('input', handleSearch);
-            studentsList.addEventListener('click', handleTableClick);
-
-            // صفحہ لوڈ ہونے پر ڈیٹا لوڈ کریں
-            await loadInitialData();
+            });
         });
     </script>
+
 </body>
 </html>
