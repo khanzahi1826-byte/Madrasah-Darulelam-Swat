@@ -19,34 +19,20 @@
         background-color: var(--light-color);
         display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;
     }
-    .login-container {
-        background: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 400px;
-    }
+    .login-container { background: #fff; padding: 40px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); text-align: center; width: 100%; max-width: 400px; }
     .login-container h1 { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 20px; }
     .login-container p { color: #666; margin-bottom: 30px; }
-    .login-form input {
-        width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit; font-size: 1.1rem; box-sizing: border-box; direction: ltr; text-align: right;
-    }
-    .btn {
-        display: inline-block; background: var(--primary-color); color: #fff; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-size: 1.2rem; transition: background 0.3s ease; border: none; cursor: pointer; width: 100%; font-family: 'Noto Nastaliq Urdu', sans-serif;
-    }
+    .login-form input { width: 100%; padding: 15px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit; font-size: 1.1rem; box-sizing: border-box; direction: ltr; text-align: right; }
+    .btn { display: inline-block; background: var(--primary-color); color: #fff; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-size: 1.2rem; transition: background 0.3s ease; border: none; cursor: pointer; width: 100%; font-family: 'Noto Nastaliq Urdu', sans-serif; }
     .btn:hover { background: #00382e; }
-    .divider {
-        text-align: center; margin: 20px 0; color: #888; position: relative;
-    }
-    .divider::before, .divider::after {
-        content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background-color: #ccc;
-    }
+    .divider { text-align: center; margin: 20px 0; color: #888; position: relative; }
+    .divider::before, .divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background-color: #ccc; }
     .divider::before { right: 0; }
     .divider::after { left: 0; }
-    .google-btn {
-        background-color: #4285F4; color: white;
-    }
+    .google-btn { background-color: #4285F4; color: white; }
     .google-btn:hover { background-color: #357ae8; }
     .google-btn .fab { margin-left: 10px; }
-    #error-message {
-        color: #d93025; margin-top: 15px; display: none;
-    }
+    #error-message { color: #d93025; margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
@@ -60,9 +46,7 @@
         </form>
         <p id="error-message"></p>
         <div class="divider">یا</div>
-        <button id="google-signin-btn" class="btn google-btn">
-            <i class="fab fa-google"></i> گوگل کے ساتھ لاگ ان کریں
-        </button>
+        <button id="google-signin-btn" class="btn google-btn"><i class="fab fa-google"></i> گوگل کے ساتھ لاگ ان کریں</button>
     </div>
 
     <!-- Firebase Libraries -->
@@ -78,26 +62,54 @@
         const passwordInput = document.getElementById('password');
         const errorMessage = document.getElementById('error-message');
         const googleSignInBtn = document.getElementById('google-signin-btn');
-        const authorizedEmail = 'khanzahi1826@gmail.com'; // آپ کا ای میل
+        
+        const authorizedEmail = 'khanzahi1826@gmail.com';
+
+        // Function to handle successful login
+        const handleLogin = (user) => {
+            if (user.email === authorizedEmail) {
+                window.location.href = 'admin.html';
+            } else {
+                firebase.auth().signOut();
+                errorMessage.textContent = 'آپ اس اکاؤنٹ سے لاگ ان کرنے کے مجاز نہیں ہیں۔';
+                errorMessage.style.display = 'block';
+            }
+        };
+
+        // Function to handle login errors
+        const handleError = (error) => {
+            if (error.code === 'auth/user-not-found') {
+                 // If user is not found, try to create a new user
+                const email = emailInput.value;
+                const password = passwordInput.value;
+                if(email === authorizedEmail) { // Only create the authorized user
+                    firebase.auth().createUserWithEmailAndPassword(email, password)
+                        .then(userCredential => handleLogin(userCredential.user))
+                        .catch(creationError => {
+                             errorMessage.textContent = "اکاؤنٹ بنانے میں خرابی: " + creationError.message;
+                             errorMessage.style.display = 'block';
+                        });
+                } else {
+                    errorMessage.textContent = "ای میل یا پاس ورڈ غلط ہے۔";
+                    errorMessage.style.display = 'block';
+                }
+            } else if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+                errorMessage.textContent = "ای میل یا پاس ورڈ غلط ہے۔";
+                errorMessage.style.display = 'block';
+            } else {
+                errorMessage.textContent = "لاگ ان کے دوران ایک خرابی پیش آئی۔";
+                errorMessage.style.display = 'block';
+            }
+            console.error("Login/Creation Error:", error);
+        };
 
         // Email/Password Login
         loginForm.addEventListener('submit', function(event) {
             event.preventDefault();
             errorMessage.style.display = 'none';
             firebase.auth().signInWithEmailAndPassword(emailInput.value, passwordInput.value)
-                .then(userCredential => {
-                     if(userCredential.user.email === authorizedEmail) {
-                         window.location.href = 'admin.html';
-                     } else {
-                         firebase.auth().signOut();
-                         errorMessage.textContent = 'آپ اس اکاؤنٹ سے لاگ ان کرنے کے مجاز نہیں ہیں۔';
-                         errorMessage.style.display = 'block';
-                     }
-                })
-                .catch(error => {
-                    errorMessage.textContent = "ای میل یا پاس ورڈ غلط ہے۔";
-                    errorMessage.style.display = 'block';
-                });
+                .then(userCredential => handleLogin(userCredential.user))
+                .catch(handleError);
         });
 
         // Google Sign-In
@@ -106,15 +118,8 @@
             errorMessage.style.display = 'none';
 
             firebase.auth().signInWithPopup(provider)
-                .then((result) => {
-                    if (result.user.email === authorizedEmail) {
-                        window.location.href = 'admin.html';
-                    } else {
-                        firebase.auth().signOut();
-                        errorMessage.textContent = 'آپ اس ای میل کے ساتھ لاگ ان کرنے کے مجاز نہیں ہیں۔';
-                        errorMessage.style.display = 'block';
-                    }
-                }).catch((error) => {
+                .then((result) => handleLogin(result.user))
+                .catch((error) => {
                     errorMessage.textContent = 'گوگل لاگ ان کے دوران ایک خرابی پیش آئی۔';
                     errorMessage.style.display = 'block';
                     console.error("Google Sign-In Error:", error);
