@@ -27,9 +27,10 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // ----------------------------------------------------
-// Students - ڈیٹا بیس کے ساتھ کام کرنے کے لیے مددگار فنکشنز
+// Helper Functions for Database Operations
 // ----------------------------------------------------
 
+// طلباء کی فہرست حاصل کریں
 async function getStudents() {
     const snapshot = await db.collection("students").get();
     const students = [];
@@ -39,4 +40,22 @@ async function getStudents() {
     return students;
 }
 
-// ... (باقی فنکشنز اسی طرح رہیں گے) ...
+// اساتذہ کی فہرست حاصل کریں
+async function getTeachers() {
+    const snapshot = await db.collection("teachers").get();
+    const teachers = [];
+    snapshot.forEach(doc => {
+        teachers.push({ id: doc.id, ...doc.data() });
+    });
+    return teachers;
+}
+
+// کورسز کی فہرست حاصل کریں
+async function getCourses() {
+    const snapshot = await db.collection("courses").get();
+    const courses = [];
+    snapshot.forEach(doc => {
+        courses.push({ id: doc.id, ...doc.data() });
+    });
+    return courses;
+}
