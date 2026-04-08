@@ -33,7 +33,7 @@
     .google-btn { background-color: #4285F4; color: white; }
     .google-btn:hover { background-color: #357ae8; }
     .google-btn .fab { margin-left: 10px; }
-    #error-message { color: #d93025; margin-top: 15px; display: none; }
+    #error-message { color: #d93025; margin-top: 15px; display: none; word-wrap: break-word; }
     </style>
 </head>
 <body>
@@ -58,59 +58,53 @@
     <script src="firebase.js"></script>
 
     <script>
-        const loginForm = document.getElementById('login-form');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
-        const errorMessage = document.getElementById('error-message');
-        const googleSignInBtn = document.getElementById('google-signin-btn');
-        
-        const authorizedEmail = 'khanzahi1826@gmail.com';
+        // ਯਕੀਨੀ ਬਣਾਓ ਕਿ DOM ਪੂਰੀ ਤਰ੍ਹਾਂ ਲੋਡ ਹੋ ਗਿਆ ਹੈ
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('login-form');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const errorMessage = document.getElementById('error-message');
+            const googleSignInBtn = document.getElementById('google-signin-btn');
+            
+            const authorizedEmail = 'khanzahi1826@gmail.com';
 
-        // Function to handle successful login
-        const handleLogin = (user) => {
-            if (user.email === authorizedEmail) {
-                window.location.href = 'admin.html';
-            } else {
-                firebase.auth().signOut();
-                errorMessage.textContent = 'آپ اس اکاؤنٹ سے لاگ ان کرنے کے مجاز نہیں ہیں۔';
-                errorMessage.style.display = 'block';
-            }
-        };
-
-        // Function to handle login errors
-        const handleError = (error) => {
-            let message = "لاگ ان کے دوران ایک خرابی پیش آئی۔";
-            if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
-                message = "ای میل یا پاس ورڈ غلط ہے۔";
-            } else if (error.code === 'auth/invalid-email') {
-                message = "ای میل کا فارمیٹ غلط ہے۔";
-            }
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-            console.error("Login Error:", error);
-        };
-
-        // Email/Password Login
-        loginForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            errorMessage.style.display = 'none';
-            firebase.auth().signInWithEmailAndPassword(emailInput.value, passwordInput.value)
-                .then(userCredential => handleLogin(userCredential.user))
-                .catch(handleError);
-        });
-
-        // Google Sign-In
-        googleSignInBtn.addEventListener('click', () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            errorMessage.style.display = 'none';
-
-            firebase.auth().signInWithPopup(provider)
-                .then((result) => handleLogin(result.user))
-                .catch((error) => {
-                    errorMessage.textContent = 'گوگل لاگ ان کے دوران ایک خرابی پیش آئی۔';
+            const handleLogin = (user) => {
+                if (user && user.email === authorizedEmail) {
+                    window.location.href = 'admin.html';
+                } else {
+                    firebase.auth().signOut();
+                    errorMessage.textContent = 'آپ اس اکاؤنٹ سے لاگ ان کرنے کے مجاز نہیں ہیں۔';
                     errorMessage.style.display = 'block';
-                    console.error("Google Sign-In Error:", error);
+                }
+            };
+
+            const handleError = (error) => {
+                let message = `گوگل لاگ ان کے دوران ایک خرابی پیش آئی۔ کوڈ: ${error.code}`;
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                console.error("Login Error Details:", error);
+            };
+
+            if(loginForm) {
+                loginForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    errorMessage.style.display = 'none';
+                    firebase.auth().signInWithEmailAndPassword(emailInput.value, passwordInput.value)
+                        .then(userCredential => handleLogin(userCredential.user))
+                        .catch(handleError);
                 });
+            }
+
+            if(googleSignInBtn) {
+                googleSignInBtn.addEventListener('click', () => {
+                    const provider = new firebase.auth.GoogleAuthProvider();
+                    errorMessage.style.display = 'none';
+
+                    firebase.auth().signInWithPopup(provider)
+                        .then((result) => handleLogin(result.user))
+                        .catch(handleError);
+                });
+            }
         });
     </script>
 </body>
