@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ur">
 <head>
@@ -78,29 +79,15 @@
 
         // Function to handle login errors
         const handleError = (error) => {
-            if (error.code === 'auth/user-not-found') {
-                 // If user is not found, try to create a new user
-                const email = emailInput.value;
-                const password = passwordInput.value;
-                if(email === authorizedEmail) { // Only create the authorized user
-                    firebase.auth().createUserWithEmailAndPassword(email, password)
-                        .then(userCredential => handleLogin(userCredential.user))
-                        .catch(creationError => {
-                             errorMessage.textContent = "اکاؤنٹ بنانے میں خرابی: " + creationError.message;
-                             errorMessage.style.display = 'block';
-                        });
-                } else {
-                    errorMessage.textContent = "ای میل یا پاس ورڈ غلط ہے۔";
-                    errorMessage.style.display = 'block';
-                }
-            } else if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
-                errorMessage.textContent = "ای میل یا پاس ورڈ غلط ہے۔";
-                errorMessage.style.display = 'block';
-            } else {
-                errorMessage.textContent = "لاگ ان کے دوران ایک خرابی پیش آئی۔";
-                errorMessage.style.display = 'block';
+            let message = "لاگ ان کے دوران ایک خرابی پیش آئی۔";
+            if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+                message = "ای میل یا پاس ورڈ غلط ہے۔";
+            } else if (error.code === 'auth/invalid-email') {
+                message = "ای میل کا فارمیٹ غلط ہے۔";
             }
-            console.error("Login/Creation Error:", error);
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            console.error("Login Error:", error);
         };
 
         // Email/Password Login
