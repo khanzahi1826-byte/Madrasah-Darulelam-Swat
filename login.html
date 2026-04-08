@@ -1,15 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="ur">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ایڈمن لاگ ان - مدرسہ دارالعلم سوات</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
     :root {
         --primary-color: #004d40;
-        --secondary-color: #d4af37;
         --light-color: #f5f5f5;
         --font-family: 'Noto Nastaliq Urdu', serif;
     }
@@ -33,12 +32,19 @@
         <h1>ایڈمن لاگ ان</h1>
         <p>براہ کرم اپنے اسناد درج کریں۔</p>
         <form id="login-form" class="login-form">
-            <input type="email" id="email" placeholder="ای میل" required>
+            <input type="email" id="email" placeholder="ای میل" required value="khanzahi1826@gmail.com">
             <input type="password" id="password" placeholder="پاس ورڈ" required>
             <button type="submit" class="btn">لاگ ان کریں</button>
         </form>
         <p id="error-message"></p>
     </div>
+
+    <!-- Firebase Libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <!-- Firebase Config -->
+    <script src="firebase.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -47,25 +53,35 @@
             const passwordInput = document.getElementById('password');
             const errorMessage = document.getElementById('error-message');
 
-            const correctEmail = "khanzahi1826@gmail.com";
-            const correctPassword = "Zahid$.26";
+            // اگر صارف پہلے سے لاگ ان ہے تو اسے ایڈمن پینل پر بھیج دیں۔
+            firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    // صارف لاگ ان ہے۔ ہم اسے تھوڑی دیر بعد بھیجیں گے تاکہ اگر وہ لاگ آؤٹ کرنا چاہے تو کر سکے۔
+                    setTimeout(() => {
+                         window.location.href = 'admin.html';
+                    }, 500);
+                }
+            });
 
             if(loginForm) {
                 loginForm.addEventListener('submit', (event) => {
                     event.preventDefault();
                     errorMessage.style.display = 'none';
 
-                    const enteredEmail = emailInput.value;
-                    const enteredPassword = passwordInput.value;
+                    const email = emailInput.value;
+                    const password = passwordInput.value;
 
-                    if (enteredEmail === correctEmail && enteredPassword === correctPassword) {
-                        // اگر ای میل اور پاس ورڈ درست ہیں تو ایڈمن پیج پر جائیں
-                        window.location.href = 'admin.html';
-                    } else {
-                        // اگر غلط ہیں تو خرابی کا پیغام دکھائیں
-                        errorMessage.textContent = 'ای میل یا پاس ورڈ غلط ہے۔';
-                        errorMessage.style.display = 'block';
-                    }
+                    firebase.auth().signInWithEmailAndPassword(email, password)
+                        .then((userCredential) => {
+                            // کامیاب لاگ ان
+                            window.location.href = 'admin.html';
+                        })
+                        .catch((error) => {
+                            // خرابی کو سنبھالیں۔
+                            console.error("Login Error:", error);
+                            errorMessage.textContent = 'ای میل یا پاس ورڈ غلط ہے۔';
+                            errorMessage.style.display = 'block';
+                        });
                 });
             }
         });

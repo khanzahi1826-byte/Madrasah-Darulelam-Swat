@@ -14,125 +14,25 @@
             --dark-color: #212121; /* گہرا خاکستری */
             --font-family: 'Noto Nastaliq Urdu', serif;
         }
-        html {
-            font-size: 16px;
-        }
-        body {
-            font-family: var(--font-family);
-            direction: rtl;
-            background-color: var(--light-color);
-            margin: 0;
-            font-size: 1rem; /* 16px */
-        }
-        .admin-wrapper {
-            display: flex;
-            min-height: 100vh;
-        }
-        .sidebar {
-            width: 240px;
-            background: var(--primary-color);
-            color: #fff;
-            padding: 20px;
-        }
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.5rem; /* 24px */
-        }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-        .sidebar ul li a {
-            display: block;
-            color: #fff;
-            text-decoration: none;
-            padding: 12px 15px;
-            font-size: 1.1rem; /* 17.6px */
-            border-radius: 5px;
-            transition: background 0.3s ease;
-        }
-        .sidebar ul li a:hover, .sidebar ul li a.active {
-            background: var(--secondary-color);
-        }
-        .sidebar ul li a .fa {
-            margin-left: 10px;
-        }
-         .logout-btn {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            background-color: var(--secondary-color);
-            color: var(--primary-color);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: var(--font-family);
-            font-size: 1rem;
-        }
-        .main-content {
-            flex: 1;
-            padding: 20px;
-        }
-        header {
-            background: #fff;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        header h1 {
-            margin: 0;
-            font-size: 1.8rem; /* 28.8px */
-        }
-        .dashboard-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            display: flex;
-            align-items: center;
-        }
-        .card .fa {
-            font-size: 2.5rem; /* 40px */
-            color: var(--primary-color);
-            margin-left: 20px;
-        }
-        .card-content h3 {
-            margin: 0;
-            font-size: 1.2rem; /* 19.2px */
-            color: var(--dark-color);
-        }
-        .card-content .number {
-            font-size: 2rem; /* 32px */
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-top: 5px;
-        }
-        .quick-links {
-            margin-top: 20px;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .quick-links h2 {
-            margin-top: 0;
-        }
-        .quick-links a {
-            display: inline-block;
-            margin: 5px;
-            padding: 10px 15px;
-            background-color: var(--primary-color);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
+        html { font-size: 16px; }
+        body { font-family: var(--font-family); direction: rtl; background-color: var(--light-color); margin: 0; font-size: 1rem; }
+        .admin-wrapper { display: flex; min-height: 100vh; }
+        .sidebar { width: 240px; background: var(--primary-color); color: #fff; padding: 20px; position: relative; }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.5rem; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar ul li a { display: block; color: #fff; text-decoration: none; padding: 12px 15px; font-size: 1.1rem; border-radius: 5px; transition: background 0.3s ease; }
+        .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--secondary-color); }
+        .sidebar ul li a .fa { margin-left: 10px; }
+        .logout-btn { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 85%; background-color: var(--secondary-color); color: var(--primary-color); border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-family: var(--font-family); font-size: 1rem; }
+        .main-content { flex: 1; padding: 20px; }
+        header { background: #fff; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        header h1 { margin: 0; font-size: 1.8rem; }
+        .dashboard-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; align-items: center; }
+        .card .fa { font-size: 2.5rem; color: var(--primary-color); margin-left: 20px; }
+        .card-content h3 { margin: 0; font-size: 1.2rem; color: var(--dark-color); }
+        .card-content .number { font-size: 2rem; font-weight: bold; color: var(--primary-color); margin-top: 5px; }
+        #loading-indicator { text-align: center; padding: 50px; font-size: 1.2rem; }
     </style>
 </head>
 <body>
@@ -147,19 +47,21 @@
                 <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
                 <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
             </ul>
-             <button class="logout-btn" onclick="logout()">لاگ آؤٹ</button>
+             <button class="logout-btn" id="logout-button">لاگ آؤٹ</button>
         </aside>
         <main class="main-content">
             <header>
                 <h1>ڈیش بورڈ</h1>
             </header>
 
-            <div class="dashboard-cards">
-                <div class="card">
+            <div id="loading-indicator">لوڈ ہو رہا ہے...</div>
+
+            <div class="dashboard-cards" id="dashboard-content" style="display: none;">
+                 <div class="card">
                     <i class="fa fa-users"></i>
                     <div class="card-content">
                         <h3>کل طلباء</h3>
-                        <p class="number" id="total-students">Error</p>
+                        <p class="number" id="total-students">0</p>
                     </div>
                 </div>
                  <div class="card">
@@ -173,7 +75,7 @@
                     <i class="fa fa-book-open"></i>
                     <div class="card-content">
                         <h3>کل کورسز</h3>
-                        <p class="number" id="total-courses">4</p>
+                        <p class="number" id="total-courses">0</p>
                     </div>
                 </div>
                 <div class="card">
@@ -189,43 +91,53 @@
 
     <!-- Firebase Libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    <!-- Firebase Config -->
+    <!-- Firebase Config & Helpers -->
     <script src="firebase.js"></script>
+
     <script>
-         firebase.auth().onAuthStateChanged(function(user) {
-            if (!user) {
+        document.addEventListener('DOMContentLoaded', () => {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const dashboardContent = document.getElementById('dashboard-content');
+            const logoutButton = document.getElementById('logout-button');
+
+            // Simple logout
+            logoutButton.addEventListener('click', () => {
+                // This doesn't use Firebase, just redirects.
                 window.location.href = 'login.html';
-            }
-        });
-        function logout() {
-            firebase.auth().signOut().then(() => {
-                window.location.href = 'login.html';
-            }).catch((error) => {
-                console.error('Logout failed:', error);
             });
-        }
-        
-        async function updateDashboard() {
-            try {
-                // طلباء کی تعداد
-                const students = await getStudents();
-                document.getElementById('total-students').textContent = students.length;
+            
+            async function updateDashboard() {
+                try {
+                    // Fetch all data in parallel for speed
+                    const [students, teachers, courses] = await Promise.all([
+                        getStudents(),
+                        getTeachers(),
+                        getCourses()
+                    ]);
 
-                // اساتذہ کی تعداد
-                const teachers = await getTeachers();
-                document.getElementById('total-teachers').textContent = teachers.length;
+                    // Update dashboard cards
+                    document.getElementById('total-students').textContent = students.length;
+                    document.getElementById('total-teachers').textContent = teachers.length;
+                    document.getElementById('total-courses').textContent = courses.length;
+                    
+                    // Hide loading and show content
+                    loadingIndicator.style.display = 'none';
+                    dashboardContent.style.display = 'grid';
 
-            } catch (error) {
-                console.error("Dashboard update error: ", error);
-                 document.getElementById('total-students').textContent = 'Error';
-                 document.getElementById('total-teachers').textContent = 'Error';
+                } catch (error) {
+                    console.error("Dashboard update error: ", error);
+                    loadingIndicator.innerHTML = `
+                        <p>ڈیٹا لوڈ کرنے میں خرابی ہوئی۔</p>
+                        <p>یہ مسئلہ عام طور پر ڈیٹا بیس کنکشن نہ ہونے کی وجہ سے ہوتا ہے۔</p>
+                        <p>براہ کرم ایڈمن سے رابطہ کریں۔</p>
+                    `;
+                }
             }
-        }
 
-        updateDashboard();
+            updateDashboard();
+        });
     </script>
 </body>
 </html>
