@@ -91,6 +91,7 @@
 
     <!-- Firebase Libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
     <!-- Firebase Config & Helpers -->
@@ -102,27 +103,40 @@
             const dashboardContent = document.getElementById('dashboard-content');
             const logoutButton = document.getElementById('logout-button');
 
-            // Simple logout
-            logoutButton.addEventListener('click', () => {
-                // This doesn't use Firebase, just redirects.
-                window.location.href = 'login.html';
+            firebase.auth().onAuthStateChanged(async (user) => {
+                if (user) {
+                    console.log("User is logged in, fetching dashboard data.");
+                    await updateDashboard();
+                } else {
+                    console.log("User is not logged in, redirecting to login.html");
+                    window.location.href = 'login.html';
+                }
             });
-            
+
+            logoutButton.addEventListener('click', () => {
+                firebase.auth().signOut().then(() => {
+                    console.log("User signed out.");
+                }).catch((error) => {
+                    console.error('Logout failed:', error);
+                });
+            });
+
             async function updateDashboard() {
+                dashboardContent.style.display = 'none';
+                loadingIndicator.style.display = 'block';
+                loadingIndicator.textContent = 'لوڈ ہو رہا ہے...';
+
                 try {
-                    // Fetch all data in parallel for speed
                     const [students, teachers, courses] = await Promise.all([
                         getStudents(),
                         getTeachers(),
                         getCourses()
                     ]);
 
-                    // Update dashboard cards
                     document.getElementById('total-students').textContent = students.length;
                     document.getElementById('total-teachers').textContent = teachers.length;
                     document.getElementById('total-courses').textContent = courses.length;
-                    
-                    // Hide loading and show content
+
                     loadingIndicator.style.display = 'none';
                     dashboardContent.style.display = 'grid';
 
@@ -135,8 +149,6 @@
                     `;
                 }
             }
-
-            updateDashboard();
         });
     </script>
 </body>
