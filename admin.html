@@ -3,36 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ایڈمن پینل - مدرسہ مینجمنٹ سسٹم</title>
+    <title>ڈیش بورڈ - مدرسہ مینجمنٹ سسٹم</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
         :root {
-            --primary-color: #004d40; /* گہرا سبز */
-            --secondary-color: #d4af37; /* سنہری */
-            --light-color: #f5f5f5; /* ہلکا خاکستری */
-            --dark-color: #212121; /* گہرا خاکستری */
+            --primary-color: #004d40;
+            --secondary-color: #d4af37;
+            --light-color: #f5f5f5;
+            --dark-color: #212121;
             --font-family: 'Noto Nastaliq Urdu', serif;
         }
-        html { font-size: 16px; }
-        body { font-family: var(--font-family); direction: rtl; background-color: var(--light-color); margin: 0; font-size: 1rem; }
+        body {
+            font-family: var(--font-family);
+            direction: rtl;
+            background-color: var(--light-color);
+            margin: 0;
+        }
         .admin-wrapper { display: flex; min-height: 100vh; }
-        .sidebar { width: 240px; background: var(--primary-color); color: #fff; padding: 20px; position: relative; }
-        .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.5rem; }
+        .sidebar {
+            width: 240px;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 20px;
+            position: relative;
+        }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; }
         .sidebar ul { list-style: none; padding: 0; }
-        .sidebar ul li a { display: block; color: #fff; text-decoration: none; padding: 12px 15px; font-size: 1.1rem; border-radius: 5px; transition: background 0.3s ease; }
+        .sidebar ul li a {
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
         .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--secondary-color); }
         .sidebar ul li a .fa { margin-left: 10px; }
-        .logout-btn { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 85%; background-color: var(--secondary-color); color: var(--primary-color); border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-family: var(--font-family); font-size: 1rem; }
+        .logout-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: var(--font-family);
+            font-size: 1rem;
+        }
         .main-content { flex: 1; padding: 20px; }
-        header { background: #fff; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        header h1 { margin: 0; font-size: 1.8rem; }
+        .main-header {
+            background: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .main-header h1 { margin: 0; }
         .dashboard-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-        .card { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; align-items: center; }
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+        }
         .card .fa { font-size: 2.5rem; color: var(--primary-color); margin-left: 20px; }
         .card-content h3 { margin: 0; font-size: 1.2rem; color: var(--dark-color); }
         .card-content .number { font-size: 2rem; font-weight: bold; color: var(--primary-color); margin-top: 5px; }
-        #loading-indicator { text-align: center; padding: 50px; font-size: 1.2rem; }
+        #loading-indicator {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -47,12 +96,12 @@
                 <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
                 <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
             </ul>
-             <button class="logout-btn" id="logout-button">لاگ آؤٹ</button>
+            <button class="logout-btn" onclick="logout()">لاگ آؤٹ</button>
         </aside>
         <main class="main-content">
-            <header>
+            <div class="main-header">
                 <h1>ڈیش بورڈ</h1>
-            </header>
+            </div>
 
             <div id="loading-indicator">لوڈ ہو رہا ہے...</div>
 
@@ -78,55 +127,34 @@
                         <p class="number" id="total-courses">0</p>
                     </div>
                 </div>
-                <div class="card">
-                    <i class="fa fa-money-bill-wave"></i>
-                    <div class="card-content">
-                        <h3>فیس آمدنی</h3>
-                        <p class="number" id="fee-income">0</p>
-                    </div>
-                </div>
             </div>
         </main>
     </div>
 
-    <!-- Firebase Libraries -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-    <!-- Firebase Config & Helpers -->
     <script src="firebase.js"></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const loadingIndicator = document.getElementById('loading-indicator');
             const dashboardContent = document.getElementById('dashboard-content');
-            const logoutButton = document.getElementById('logout-button');
 
             firebase.auth().onAuthStateChanged(async (user) => {
                 if (user) {
-                    console.log("User is logged in, fetching dashboard data.");
                     await updateDashboard();
                 } else {
-                    console.log("User is not logged in, redirecting to login.html");
                     window.location.href = 'login.html';
                 }
-            });
-
-            logoutButton.addEventListener('click', () => {
-                firebase.auth().signOut().then(() => {
-                    console.log("User signed out.");
-                }).catch((error) => {
-                    console.error('Logout failed:', error);
-                });
             });
 
             async function updateDashboard() {
                 dashboardContent.style.display = 'none';
                 loadingIndicator.style.display = 'block';
-                loadingIndicator.textContent = 'لوڈ ہو رہا ہے...';
+                loadingIndicator.textContent = 'ڈیٹا حاصل کیا جا رہا ہے...';
 
                 try {
+                    // Promise.all کا استعمال کرتے ہوئے تمام ڈیٹا ایک ساتھ حاصل کریں
                     const [students, teachers, courses] = await Promise.all([
                         getStudents(),
                         getTeachers(),
@@ -142,14 +170,18 @@
 
                 } catch (error) {
                     console.error("Dashboard update error: ", error);
-                    loadingIndicator.innerHTML = `
-                        <p>ڈیٹا لوڈ کرنے میں خرابی ہوئی۔</p>
-                        <p>یہ مسئلہ عام طور پر ڈیٹا بیس کنکشن نہ ہونے کی وجہ سے ہوتا ہے۔</p>
-                        <p>براہ کرم ایڈمن سے رابطہ کریں۔</p>
-                    `;
+                    loadingIndicator.innerHTML = '<p>ڈیش بورڈ کی معلومات لوڈ کرنے میں خرابی واقع ہوئی ہے۔ براہ کرم اپنے انٹرنیٹ کنکشن کو چیک کریں یا ایڈمن سے رابطہ کریں۔</p>';
                 }
             }
         });
+
+        function logout() {
+            firebase.auth().signOut().then(() => {
+                window.location.href = 'login.html';
+            }).catch((error) => {
+                console.error('Logout failed:', error);
+            });
+        }
     </script>
 </body>
 </html>
