@@ -1,10 +1,3 @@
-// Firebase کا بنیادی سیٹ اپ
-// Firebase App (لازمی)
-import "https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js";
-// Firebase سروسز جو آپ استعمال کرنا چاہتے ہیں
-import "https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js";
-import "https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js";
-
 // آپ کی ویب ایپ کی Firebase کنفیگریشن
 const firebaseConfig = {
   apiKey: "AIzaSyBlzq8dkN7CqjjQ1IT8eCgEmKa0QMrHHE4",

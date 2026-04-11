@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>طلباء - ایڈمن پینل</title>
+    <title>طلباء مینجمنٹ - مدرسہ مینجمنٹ سسٹم</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
@@ -14,92 +14,154 @@
             --dark-color: #212121;
             --font-family: 'Noto Nastaliq Urdu', serif;
         }
-        html { font-size: 16px; }
         body {
             font-family: var(--font-family);
             direction: rtl;
             background-color: var(--light-color);
             margin: 0;
-            font-size: 1rem;
         }
         .admin-wrapper { display: flex; min-height: 100vh; }
         .sidebar {
-            width: 240px; background: var(--primary-color); color: #fff; padding: 20px;
+            width: 240px;
+            background: var(--primary-color);
+            color: #fff;
+            padding: 20px;
+            position: relative;
         }
-        .sidebar h2 { text-align: center; margin-bottom: 30px; font-size: 1.5rem; }
+        .sidebar h2 { text-align: center; margin-bottom: 30px; }
         .sidebar ul { list-style: none; padding: 0; }
         .sidebar ul li a {
-            display: block; color: #fff; text-decoration: none; padding: 12px 15px; font-size: 1.1rem; border-radius: 5px; transition: background 0.3s ease;
+            display: block;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
         }
         .sidebar ul li a:hover, .sidebar ul li a.active { background: var(--secondary-color); }
         .sidebar ul li a .fa { margin-left: 10px; }
+        .logout-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: var(--font-family);
+            font-size: 1rem;
+        }
         .main-content { flex: 1; padding: 20px; }
-        header {
+        .main-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: #fff;
             padding: 15px 20px;
             border-radius: 8px;
+            margin-bottom: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
         }
-        header h1 { margin: 0; font-size: 1.8rem; }
-        .btn {
-            display: inline-block;
-            background: var(--primary-color);
+        .main-header h1 { margin: 0; }
+        .add-student-btn {
+            background-color: var(--primary-color);
             color: #fff;
-            padding: 10px 18px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 1rem;
-            transition: background 0.3s ease;
             border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
-            font-family: 'Noto Nastaliq Urdu', sans-serif;
+            font-family: var(--font-family);
+            font-size: 1rem;
         }
-        .search-container {
+        .search-bar {
             margin-bottom: 20px;
+            display: flex;
         }
-        #searchInput {
+        .search-bar input {
             width: 100%;
             padding: 10px;
             border-radius: 5px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             font-family: var(--font-family);
-            font-size: 1rem;
-            box-sizing: border-box; /* Important for preventing overflow */
         }
-        .students-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
+        .table-container { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .students-table { width: 100%; border-collapse: collapse; }
         .students-table th, .students-table td {
             padding: 12px 15px;
             text-align: right;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #ddd;
         }
-        .students-table th {
-            background: var(--primary-color);
-            color: white;
-            font-size: 1.1rem;
-        }
-        .students-table .actions a {
-            color: var(--primary-color);
-            margin-left: 12px;
-            font-size: 1.1rem;
-            text-decoration: none;
+        .students-table th { background-color: var(--primary-color); color: white; }
+        .students-table tbody tr:hover { background-color: #f1f1f1; }
+        .action-btns button {
+            border: none;
+            background: none;
             cursor: pointer;
+            font-size: 1.1rem;
+            margin: 0 5px;
         }
-        .loading-text {
-            text-align: center;
-            padding: 40px;
-            font-size: 1.2rem;
+        .action-btns .edit-btn { color: var(--primary-color); }
+        .action-btns .delete-btn { color: #d9534f; }
+        .no-data-row { text-align: center; padding: 20px; color: #777; }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
         }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            direction: rtl;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .modal-header h2 { margin: 0; }
+        .close-btn { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .modal-body form { display: flex; flex-direction: column; }
+        .modal-body .form-group { margin-bottom: 15px; }
+        .modal-body label { margin-bottom: 5px; display: block; }
+        .modal-body input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        .modal-footer {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .modal-footer button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .modal-footer .save-btn { background-color: var(--primary-color); color: white; }
+        .modal-footer .cancel-btn { background-color: #ccc; }
     </style>
 </head>
 <body>
@@ -114,112 +176,209 @@
                 <li><a href="#"><i class="fa fa-money-bill-wave"></i> فیس</a></li>
                 <li><a href="#"><i class="fa fa-bullhorn"></i> اعلانات</a></li>
             </ul>
+            <button class="logout-btn" onclick="logout()">لاگ آؤٹ</button>
         </aside>
         <main class="main-content">
-            <header>
+            <div class="main-header">
                 <h1>طلباء کا مینجمنٹ</h1>
-                <a href="add-student.html" class="btn"><i class="fa fa-plus"></i> نیا طالب علم شامل کریں</a>
-            </header>
-
-            <div class="search-container">
+                <button class="add-student-btn" id="addStudentBtn">نیا طالب علم شامل کریں</button>
+            </div>
+            <div class="search-bar">
                 <input type="text" id="searchInput" placeholder="طالب علم کو نام، والد کے نام، یا رول نمبر سے تلاش کریں...">
             </div>
-
-            <table class="students-table">
-                <thead>
-                    <tr>
-                        <th>رول نمبر</th>
-                        <th>نام</th>
-                        <th>والد کا نام</th>
-                        <th>شعبہ</th>
-                        <th>کاروائیاں</th>
-                    </tr>
-                </thead>
-                <tbody id="students-list">
-                     <tr>
-                        <td colspan="5" class="loading-text">ڈیٹا لوڈ ہو رہا ہے، براہ کرم انتظار کریں...</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table-container">
+                <table class="students-table">
+                    <thead>
+                        <tr>
+                            <th>رول نمبر</th>
+                            <th>نام</th>
+                            <th>والد کا نام</th>
+                            <th>شعبہ</th>
+                            <th>کاروائیاں</th>
+                        </tr>
+                    </thead>
+                    <tbody id="students-table-body">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
         </main>
     </div>
 
-    <!-- Firebase Libraries -->
+    <!-- Add/Edit Student Modal -->
+    <div id="studentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">نیا طالب علم شامل کریں</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="studentForm">
+                    <input type="hidden" id="studentId">
+                    <div class="form-group">
+                        <label for="rollNumber">رول نمبر</label>
+                        <input type="text" id="rollNumber" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">نام</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fatherName">والد کا نام</label>
+                        <input type="text" id="fatherName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="class">شعبہ</label>
+                        <input type="text" id="class" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" form="studentForm" class="save-btn">محفوظ کریں</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-    <!-- Firebase Config -->
     <script src="firebase.js"></script>
-
     <script>
-        document.addEventListener('DOMContentLoaded', async function() {
-            const studentsList = document.getElementById('students-list');
-            const searchInput = document.getElementById('searchInput');
-            let allStudents = [];
+        // DOM Elements
+        const tableBody = document.getElementById('students-table-body');
+        const searchInput = document.getElementById('searchInput');
+        const modal = document.getElementById('studentModal');
+        const addStudentBtn = document.getElementById('addStudentBtn');
+        const closeModalBtn = document.querySelector('.close-btn');
+        const studentForm = document.getElementById('studentForm');
+        const modalTitle = document.getElementById('modalTitle');
 
+        let allStudents = [];
+
+        // Fetch and display students
+        async function loadStudents() {
+            tableBody.innerHTML = '<tr><td colspan="5" class="no-data-row">لوڈ ہو رہا ہے...</td></tr>';
             try {
                 allStudents = await getStudents();
-                renderStudents(allStudents);
+                renderTable(allStudents);
             } catch (error) {
-                console.error("Error fetching students: ", error);
-                studentsList.innerHTML = '<tr><td colspan="5" class="loading-text" style="color:red;">ڈیٹا لوڈ کرنے میں ناکامی! براہ کرم کنسول چیک کریں۔</td></tr>';
+                console.error("Error loading students: ", error);
+                tableBody.innerHTML = '<tr><td colspan="5" class="no-data-row">ڈیٹا لوڈ کرنے میں ناکامی، براہ کرم کنسول چیک کریں۔</td></tr>';
             }
-
-            function renderStudents(students) {
-                studentsList.innerHTML = '';
-                if (students.length === 0) {
-                    studentsList.innerHTML = '<tr><td colspan="5" class="loading-text">کوئی طالب علم موجود نہیں ہے۔</td></tr>';
-                    return;
-                }
-
-                students.forEach(student => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${student.rollNumber}</td>
-                        <td>${student.name}</td>
-                        <td>${student.fatherName}</td>
-                        <td>${student.department}</td>
-                        <td class="actions">
-                            <a href="student-details.html?id=${student.id}" title="تفصیلات"><i class="fa fa-eye"></i></a>
-                            <a href="edit-student.html?id=${student.id}" title="ترمیم"><i class="fa fa-edit"></i></a>
-                            <a href="#" class="delete-btn" data-id="${student.id}" title="حذف"><i class="fa fa-trash"></i></a>
+        }
+        
+        // Render table with student data
+        function renderTable(students) {
+            tableBody.innerHTML = '';
+            if (students.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="5" class="no-data-row">کوئی طالب علم نہیں ملا۔</td></tr>';
+                return;
+            }
+            students.forEach(student => {
+                const row = `
+                    <tr>
+                        <td>${student.rollNumber || ''}</td>
+                        <td>${student.name || ''}</td>
+                        <td>${student.fatherName || ''}</td>
+                        <td>${student.class || ''}</td>
+                        <td class="action-btns">
+                            <button class="edit-btn" onclick="editStudent('${student.id}')"><i class="fas fa-edit"></i></button>
+                            <button class="delete-btn" onclick="deleteStudent('${student.id}')"><i class="fas fa-trash"></i></button>
                         </td>
-                    `;
-                    studentsList.appendChild(row);
-                });
-            }
-            
-            searchInput.addEventListener('input', () => {
-                const query = searchInput.value.toLowerCase();
-                const filteredStudents = allStudents.filter(student => 
-                    String(student.rollNumber).includes(query) ||
-                    student.name.toLowerCase().includes(query) || 
-                    student.fatherName.toLowerCase().includes(query)
-                );
-                renderStudents(filteredStudents);
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
             });
-
-            // Event delegation for delete buttons
-            studentsList.addEventListener('click', async (e) => {
-                if (e.target.closest('.delete-btn')) {
-                    e.preventDefault();
-                    const studentId = e.target.closest('.delete-btn').dataset.id;
-                    if (confirm('کیا آپ واقعی اس طالب علم کو حذف کرنا چاہتے ہیں؟')) {
-                        try {
-                            await deleteStudent(studentId);
-                            alert('طالب علم کامیابی سے حذف ہو گیا ہے۔');
-                            // Refresh the list
-                            allStudents = allStudents.filter(s => s.id !== studentId);
-                            renderStudents(allStudents);
-                        } catch (error) {
-                            console.error('Error deleting student: ', error);
-                            alert('طالب علم حذف کرنے میں ناکامی!');
-                        }
-                    }
-                }
-            });
+        }
+        
+        // Search functionality
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredStudents = allStudents.filter(student => 
+                (student.name && student.name.toLowerCase().includes(searchTerm)) ||
+                (student.fatherName && student.fatherName.toLowerCase().includes(searchTerm)) ||
+                (student.rollNumber && student.rollNumber.toString().includes(searchTerm))
+            );
+            renderTable(filteredStudents);
         });
-    </script>
 
+        // Modal Handling
+        addStudentBtn.onclick = () => {
+            studentForm.reset();
+            document.getElementById('studentId').value = '';
+            modalTitle.textContent = "نیا طالب علم شامل کریں";
+            modal.style.display = 'flex';
+        }
+        closeModalBtn.onclick = () => modal.style.display = 'none';
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Form Submission (Add/Edit)
+        studentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const studentId = document.getElementById('studentId').value;
+            const studentData = {
+                rollNumber: document.getElementById('rollNumber').value,
+                name: document.getElementById('name').value,
+                fatherName: document.getElementById('fatherName').value,
+                class: document.getElementById('class').value,
+            };
+
+            try {
+                if (studentId) {
+                    // Update existing student
+                    await db.collection('students').doc(studentId).update(studentData);
+                } else {
+                    // Add new student
+                    await db.collection('students').add(studentData);
+                }
+                modal.style.display = 'none';
+                loadStudents(); // Refresh table
+            } catch (error) {
+                console.error("Error saving student: ", error);
+                alert("طالب علم کو محفوظ کرنے میں خرابی۔");
+            }
+        });
+
+        // Edit Student
+        async function editStudent(id) {
+            const student = allStudents.find(s => s.id === id);
+            if (student) {
+                document.getElementById('studentId').value = student.id;
+                document.getElementById('rollNumber').value = student.rollNumber;
+                document.getElementById('name').value = student.name;
+                document.getElementById('fatherName').value = student.fatherName;
+                document.getElementById('class').value = student.class;
+                modalTitle.textContent = "طالب علم کی معلومات میں ترمیم کریں";
+                modal.style.display = 'flex';
+            }
+        }
+        
+        // Delete Student
+        async function deleteStudent(id) {
+            if (confirm("کیا آپ واقعی اس طالب علم کو حذف کرنا چاہتے ہیں؟")) {
+                try {
+                    await db.collection('students').doc(id).delete();
+                    loadStudents();
+                } catch (error) {
+                    console.error("Error deleting student: ", error);
+                    alert("طالب علم کو حذف کرنے میں خرابی۔");
+                }
+            }
+        }
+        
+        // Logout
+        function logout() {
+            firebase.auth().signOut().then(() => {
+                window.location.href = 'login.html';
+            });
+        }
+
+        // Initial Load
+        loadStudents();
+    </script>
 </body>
 </html>
